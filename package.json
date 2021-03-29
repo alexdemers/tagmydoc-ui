@@ -1,0 +1,38 @@
+{
+	"name": "tagmydoc-ui",
+	"version": "1.0.0",
+	"description": "TagMyDoc's UI library",
+	"main": "./src/index.js",
+	"module": "./lib/esm/index.js",
+	"files": [
+		"lib/"
+	],
+	"scripts": {
+		"tsc": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/alexdemers/tagmydoc-ui.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/alexdemers/tagmydoc-ui/issues"
+	},
+	"homepage": "https://github.com/alexdemers/tagmydoc-ui#readme",
+	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^1.2.35",
+		"@fortawesome/react-fontawesome": "^0.1.14",
+		"date-fns": "^2.19.0",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"react-input-mask": "^2.0.4",
+		"react-modal": "^3.12.1"
+	},
+	"devDependencies": {
+		"@types/react": "^17.0.3",
+		"@types/react-input-mask": "^3.0.0",
+		"@types/react-modal": "^3.12.0",
+		"typescript": "^4.2.3"
+	}
+}
