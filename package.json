@@ -1,6 +1,6 @@
 {
 	"name": "tagmydoc-ui",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "TagMyDoc's UI library",
 	"main": "./lib/cjs/index.js",
 	"module": "./lib/esm/index.js",
@@ -8,7 +8,7 @@
 		"lib/"
 	],
 	"scripts": {
-		"build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && postcss ./src/styles.css -o ./lib/css/tagmydoc-ui.css"
+		"build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json"
 	},
 	"repository": {
 		"type": "git",
@@ -23,21 +23,16 @@
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.35",
 		"@fortawesome/react-fontawesome": "^0.1.14",
-		"@tailwindcss/typography": "^0.4.0",
-		"autoprefixer": "^10.2.5",
 		"date-fns": "^2.19.0",
-		"postcss": "^8.2.8",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"react-input-mask": "^2.0.4",
-		"react-modal": "^3.12.1",
-		"tailwindcss": "^2.0.4"
+		"react-modal": "^3.12.1"
 	},
 	"devDependencies": {
 		"@types/react": "^17.0.3",
 		"@types/react-input-mask": "^3.0.0",
 		"@types/react-modal": "^3.12.0",
-		"postcss-cli": "^8.3.1",
 		"typescript": "^4.2.3"
 	}
 }
