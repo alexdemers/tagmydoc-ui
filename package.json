@@ -1,5 +1,5 @@
 {
-	"name": "tagmydoc-ui",
+	"name": "tmd-ui",
 	"version": "1.0.4",
 	"description": "TagMyDoc's UI library",
 	"main": "./lib/cjs/index.js",
@@ -12,14 +12,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/alexdemers/tagmydoc-ui.git"
+		"url": "git+https://github.com/tagmydoc/tmd-ui.git"
 	},
 	"author": "",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/alexdemers/tagmydoc-ui/issues"
+		"url": "https://github.com/tagmydoc/tmd-ui/issues"
 	},
-	"homepage": "https://github.com/alexdemers/tagmydoc-ui#readme",
+	"homepage": "https://github.com/tagmydoc/tmd-ui#readme",
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.35",
 		"@fortawesome/react-fontawesome": "^0.1.14",
