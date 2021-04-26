@@ -97,7 +97,7 @@ export const resolveClassName = ({ disabled = false, circle = false, outline = f
 		className += ' inline-flex';
 	}
 
-	if (shadow) {
+	if (shadow && !disabled) {
 		className += ' shadow-md focus:shadow-none';
 	}
 
