@@ -22,7 +22,7 @@ interface ModalBodyProps {
 	disabled?: boolean;
 }
 
-const Modal: FC<ModalProps> = ({ size = ModalSize.Medium, onSubmit, className = '', isOpen = false, ...props }) => {
+const Modal: FC<ModalProps> = ({ size = ModalSize.Medium, onSubmit, className = '', isOpen = false, overlayClassName = '', bodyOpenClassName = '', ...props }) => {
 	const [doneOpening, setDoneOpening] = useState(false);
 
 	useEffect(() => {
@@ -37,9 +37,9 @@ const Modal: FC<ModalProps> = ({ size = ModalSize.Medium, onSubmit, className = 
 			isOpen={isOpen}
 			onAfterOpen={() => setDoneOpening(true)}
 			closeTimeoutMS={500}
-			bodyOpenClassName="overflow-hidden"
+			bodyOpenClassName={`${bodyOpenClassName} overflow-hidden`}
 			ariaHideApp={false}
-			overlayClassName={`z-30 fixed overflow-x-hidden overflow-y-auto w-full h-full left-0 top-0 transition-colors ease-in-out duration-500 bg-black ${
+			overlayClassName={`${overlayClassName} z-30 fixed overflow-x-hidden overflow-y-auto w-full h-full left-0 top-0 transition-colors ease-in-out duration-500 bg-black ${
 				doneOpening ? 'bg-opacity-50' : 'bg-opacity-0'
 			} flex sm:items-center justify-center`}
 			className={`w-full bg-white sm:rounded-xl shadow-xl outline-none sm:h-auto ${size} transform transition-all ease-in-out duration-500 ${
