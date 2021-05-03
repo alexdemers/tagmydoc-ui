@@ -1,6 +1,6 @@
 {
 	"name": "tmd-ui",
-	"version": "1.0.7",
+	"version": "1.0.6",
 	"description": "TagMyDoc's UI library",
 	"main": "./lib/cjs/index.js",
 	"module": "./lib/esm/index.js",
@@ -30,7 +30,7 @@
 		"react-modal": "^3.13.1"
 	},
 	"devDependencies": {
-		"@types/react": "^17.0.4",
+		"@types/react": "^17.0.0",
 		"@types/react-input-mask": "^3.0.0",
 		"@types/react-modal": "^3.12.0",
 		"typescript": "^4.2.4"
