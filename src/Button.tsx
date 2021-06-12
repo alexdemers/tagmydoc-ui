@@ -65,7 +65,7 @@ export const resolveClassName = ({ disabled = false, circle = false, outline = f
 			if (outline) {
 				colorClasses += `text-gray-600 bg-white focus:ring-gray-200 focus:border-gray-400 ${!disabled ? 'hover:border-gray-400' : 'border-gray-400'}`;
 			} else {
-				colorClasses += `text-black bg-white focus:ring-gray-400 ${!disabled ? 'hover:bg-gray-100' : ''}`;
+				colorClasses += `text-black bg-white focus:ring-gray-400 ${!disabled ? 'hover:bg-gray-50' : ''}`;
 			}
 			break;
 	}
