@@ -1,4 +1,4 @@
-import React, {
+import {
 	FC,
 	forwardRef,
 	ForwardRefRenderFunction,
@@ -11,7 +11,9 @@ import React, {
 	HTMLAttributes,
 	InputHTMLAttributes,
 	ChangeEvent,
-	TextareaHTMLAttributes
+	TextareaHTMLAttributes,
+	useLayoutEffect,
+	cloneElement
 } from 'react';
 import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import InputMask from 'react-input-mask';
@@ -72,7 +74,7 @@ export type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
 	size?: Size;
 };
 
-export const TextAreaRenderFunction: ForwardRefRenderFunction<HTMLTextAreaElement, TextAreaProps> = ({ className = '', size = Size.md, block = false, ...textAreaProps }, ref) => {
+const TextAreaRenderFunction: ForwardRefRenderFunction<HTMLTextAreaElement, TextAreaProps> = ({ className = '', size = Size.md, block = false, ...textAreaProps }, ref) => {
 	switch (size) {
 		case Size.md:
 			className += ' px-3 py-2 text-base';
@@ -98,12 +100,12 @@ export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
 	size?: Size;
 };
 
-type InputGroupProps = InputProps & {
+export type InputGroupProps = InputProps & {
 	appended?: ReactNode;
 	prepended?: ReactNode;
 };
 
-type ToggleProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
+export type ToggleProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
 	intent?: Intent;
 	size?: Size;
 };
@@ -127,7 +129,7 @@ const InputRenderFunction: ForwardRefRenderFunction<HTMLInputElement, InputProps
 	if (props.mask !== undefined) {
 		child = (
 			<InputMask mask={props.mask} maskPlaceholder={props.maskChar || null} value={props.value} onChange={props.onChange}>
-				{(inputProps: { [key: string]: any }) => <input type={type} {...props} {...inputProps} ref={ref} />}
+				{(inputProps: Record<string, string>) => <input type={type} {...props} {...inputProps} ref={ref} />}
 			</InputMask>
 		);
 	} else {
@@ -148,13 +150,48 @@ const InputRenderFunction: ForwardRefRenderFunction<HTMLInputElement, InputProps
 
 const InputBlockRenderFunction: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (props, ref) => <Input ref={ref} {...props} block />;
 
-const InputGroupRenderFunction: ForwardRefRenderFunction<HTMLInputElement, InputGroupProps> = ({ appended = null, prepended = null, ...inputProps }, ref) => (
-	<div className="relative w-full">
-		<InputBlock ref={ref} {...inputProps} />
-		{prepended !== null && <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">{prepended}</div>}
-		{appended !== null && <div className={`absolute inset-y-0 right-0 flex items-center ${inputProps.type === 'number' ? 'pr-10' : 'pr-3'} pointer-events-none`}>{appended}</div>}
-	</div>
-);
+const InputGroupRenderFunction: ForwardRefRenderFunction<HTMLInputElement, InputGroupProps> = ({ appended = null, prepended = null, ...inputProps }, ref) => {
+	const prependDiv = useRef<HTMLDivElement>(null);
+	const appendDiv = useRef<HTMLDivElement>(null);
+
+	const [paddingLeft, setPaddingLeft] = useState<number>();
+	const [paddingRight, setPaddingRight] = useState<number>();
+
+	inputProps.style ??= {};
+
+	if (prepended && prependDiv.current) {
+		inputProps.style.paddingLeft = `${paddingLeft}px`;
+	}
+
+	if (appended && appendDiv.current) {
+		inputProps.style.paddingRight = `${paddingRight}px`;
+	}
+
+	useLayoutEffect(() => {
+		if (prependDiv.current) {
+			setPaddingLeft(prependDiv.current.offsetWidth);
+		}
+		if (appendDiv.current) {
+			setPaddingRight(appendDiv.current.offsetWidth);
+		}
+	}, [appended, prepended]);
+
+	return (
+		<div className="relative w-full">
+			<InputBlock ref={ref} {...inputProps} />
+			{prepended !== null && (
+				<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none" ref={prependDiv}>
+					{prepended}
+				</div>
+			)}
+			{appended !== null && (
+				<div className={`absolute inset-y-0 right-0 flex items-center ${inputProps.type === 'number' ? 'pr-10' : 'pr-3'} pointer-events-none`} ref={appendDiv}>
+					{appended}
+				</div>
+			)}
+		</div>
+	);
+};
 
 const PasswordInputRenderFunction: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (props, ref) => <Input ref={ref} type="password" autoComplete="new-password" {...props} />;
 
@@ -171,7 +208,7 @@ const CheckboxRenderFunction: ForwardRefRenderFunction<HTMLInputElement, InputPr
 	);
 };
 
-type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'> & {
+export type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'> & {
 	size?: Size;
 	block?: boolean;
 };
@@ -195,7 +232,7 @@ const SelectRenderFunction: ForwardRefRenderFunction<HTMLSelectElement, SelectPr
 
 const isDateTimeLocalSupported = false;
 
-type InputDateTimeProps = Omit<InputProps, 'onChange'> & {
+export type InputDateTimeProps = Omit<InputProps, 'onChange'> & {
 	onChange?: (datetimeIso: string) => void;
 };
 
@@ -238,6 +275,36 @@ export const InputDateTime: FC<InputDateTimeProps> = ({ value: initialValue, onC
 			<input type="date" className="bg-transparent border-0 focus:ring-0" value={polyfillDateValue} onChange={dateOnChange} />
 			<input type="time" className="bg-transparent border-0 focus:ring-0" value={polyfillTimeValue} onChange={timeOnChange} />
 		</span>
+	);
+};
+
+type ValidationFieldProps = {
+	validation: Record<string, string[]>;
+	fieldName: string;
+	errorMessage?: string;
+	children: JSX.Element;
+};
+
+export const ValidationField: FC<ValidationFieldProps> = ({ validation, fieldName, errorMessage, children }) => {
+	let errorText = null;
+
+	if (fieldName in validation) {
+		errorText = validation[fieldName][0];
+
+		if (errorMessage !== undefined) {
+			errorText = errorMessage;
+		}
+	}
+
+	return (
+		<>
+			{cloneElement(children, { className: `${children.props.className || ''} ${fieldName in validation ? 'border-red-600 rounded-b-none' : ''}` })}
+			{fieldName in validation && (
+				<div className="px-2 py-1 text-white bg-red-600 rounded-b">
+					<p className="text-sm">{errorText}</p>
+				</div>
+			)}
+		</>
 	);
 };
 

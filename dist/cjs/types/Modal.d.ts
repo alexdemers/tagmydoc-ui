@@ -17,7 +17,7 @@ interface ModalBodyProps {
     className?: string;
     disabled?: boolean;
 }
-declare const Modal: FC<ModalProps>;
+export declare const Modal: FC<ModalProps>;
 export declare const ModalHeader: ({ className, children }: React.PropsWithChildren<{
     className?: string | undefined;
 }>) => JSX.Element;
@@ -29,4 +29,4 @@ export declare const ModalFooter: ({ className, children }: React.PropsWithChild
     className?: string | undefined;
 }>) => JSX.Element;
 export declare const ModalBody: FC<ModalBodyProps>;
-export default Modal;
+export {};

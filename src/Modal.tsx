@@ -22,7 +22,7 @@ interface ModalBodyProps {
 	disabled?: boolean;
 }
 
-const Modal: FC<ModalProps> = ({ size = ModalSize.Medium, onSubmit, className = '', isOpen = false, ...props }) => {
+export const Modal: FC<ModalProps> = ({ size = ModalSize.Medium, onSubmit, className = '', isOpen = false, ...props }) => {
 	const [doneOpening, setDoneOpening] = useState(false);
 
 	useEffect(() => {
@@ -82,5 +82,3 @@ export const ModalBody: FC<ModalBodyProps> = ({ className = '', disabled = undef
 		</Tag>
 	);
 };
-
-export default Modal;

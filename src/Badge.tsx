@@ -1,12 +1,12 @@
 import React, { ButtonHTMLAttributes, FC } from 'react';
 import { Intent } from './types';
 
-type BadgeProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+export type BadgeProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 	intent?: Intent;
 	inverse?: boolean;
 };
 
-const Badge: FC<BadgeProps> = ({ intent = null, inverse = false, className = '', ...props }) => {
+export const Badge: FC<BadgeProps> = ({ intent = null, inverse = false, className = '', ...props }) => {
 	let hover = '',
 		active = '',
 		disabled = 'disabled:bg-opacity-50';
@@ -55,5 +55,3 @@ const Badge: FC<BadgeProps> = ({ intent = null, inverse = false, className = '',
 		/>
 	);
 };
-
-export default Badge;
