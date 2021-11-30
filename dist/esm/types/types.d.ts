@@ -7,12 +7,15 @@ export declare enum Size {
     '2xl' = "2xl"
 }
 export declare enum Intent {
+    primary = "primary",
     danger = "danger",
     info = "info",
     warning = "warning",
     success = "success",
+    neutral = "neutral"
+}
+export declare enum Variant {
     primary = "primary",
     secondary = "secondary",
-    tertiary = "tertiary",
-    neutral = "neutral"
+    tertiary = "tertiary"
 }

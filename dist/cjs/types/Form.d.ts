@@ -43,7 +43,7 @@ declare type ValidationFieldProps = {
 };
 export declare const ValidationField: FC<ValidationFieldProps>;
 export declare const Checkbox: import("react").ForwardRefExoticComponent<Omit<InputHTMLAttributes<HTMLInputElement>, "size"> & {
-    icon?: FontAwesomeIconProps | IconProp | null | undefined;
+    icon?: IconProp | FontAwesomeIconProps | null | undefined;
     iconColor?: string | undefined;
     block?: boolean | undefined;
     mask?: string | (string | RegExp)[] | undefined;
@@ -55,7 +55,7 @@ export declare const Select: import("react").ForwardRefExoticComponent<Omit<Sele
     block?: boolean | undefined;
 } & import("react").RefAttributes<HTMLSelectElement>>;
 export declare const Input: import("react").ForwardRefExoticComponent<Omit<InputHTMLAttributes<HTMLInputElement>, "size"> & {
-    icon?: FontAwesomeIconProps | IconProp | null | undefined;
+    icon?: IconProp | FontAwesomeIconProps | null | undefined;
     iconColor?: string | undefined;
     block?: boolean | undefined;
     mask?: string | (string | RegExp)[] | undefined;
@@ -63,7 +63,7 @@ export declare const Input: import("react").ForwardRefExoticComponent<Omit<Input
     size?: Size | undefined;
 } & import("react").RefAttributes<HTMLInputElement>>;
 export declare const InputBlock: import("react").ForwardRefExoticComponent<Omit<InputHTMLAttributes<HTMLInputElement>, "size"> & {
-    icon?: FontAwesomeIconProps | IconProp | null | undefined;
+    icon?: IconProp | FontAwesomeIconProps | null | undefined;
     iconColor?: string | undefined;
     block?: boolean | undefined;
     mask?: string | (string | RegExp)[] | undefined;
@@ -71,7 +71,7 @@ export declare const InputBlock: import("react").ForwardRefExoticComponent<Omit<
     size?: Size | undefined;
 } & import("react").RefAttributes<HTMLInputElement>>;
 export declare const InputGroup: import("react").ForwardRefExoticComponent<Omit<InputHTMLAttributes<HTMLInputElement>, "size"> & {
-    icon?: FontAwesomeIconProps | IconProp | null | undefined;
+    icon?: IconProp | FontAwesomeIconProps | null | undefined;
     iconColor?: string | undefined;
     block?: boolean | undefined;
     mask?: string | (string | RegExp)[] | undefined;
@@ -82,7 +82,7 @@ export declare const InputGroup: import("react").ForwardRefExoticComponent<Omit<
     prepended?: ReactNode;
 } & import("react").RefAttributes<HTMLInputElement>>;
 export declare const PasswordInput: import("react").ForwardRefExoticComponent<Omit<InputHTMLAttributes<HTMLInputElement>, "size"> & {
-    icon?: FontAwesomeIconProps | IconProp | null | undefined;
+    icon?: IconProp | FontAwesomeIconProps | null | undefined;
     iconColor?: string | undefined;
     block?: boolean | undefined;
     mask?: string | (string | RegExp)[] | undefined;
@@ -90,7 +90,7 @@ export declare const PasswordInput: import("react").ForwardRefExoticComponent<Om
     size?: Size | undefined;
 } & import("react").RefAttributes<HTMLInputElement>>;
 export declare const PasswordInputBlock: import("react").ForwardRefExoticComponent<Omit<InputHTMLAttributes<HTMLInputElement>, "size"> & {
-    icon?: FontAwesomeIconProps | IconProp | null | undefined;
+    icon?: IconProp | FontAwesomeIconProps | null | undefined;
     iconColor?: string | undefined;
     block?: boolean | undefined;
     mask?: string | (string | RegExp)[] | undefined;
