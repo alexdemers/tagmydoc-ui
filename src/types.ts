@@ -13,7 +13,8 @@ export enum Variant {
 	info = 'info',
 	warning = 'warning',
 	success = 'success',
-	neutral = 'neutral'
+	dark = 'dark',
+	light = 'light'
 }
 
 export enum Intent {

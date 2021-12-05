@@ -1,7 +1,7 @@
 import React from 'react';
 import { Intent, Size, Variant } from './types';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-export declare type ButtonOptions = {
+declare type ButtonOptions = {
     disabled?: boolean;
     intent?: Intent;
     className?: string;
@@ -13,5 +13,6 @@ export declare type ButtonOptions = {
     icon?: IconProp;
 };
 export declare type ButtonProps = React.ButtonHTMLAttributes<HTMLElement> & ButtonOptions;
-export declare const resolveClassName: ({ disabled, circle, intent, variant, className, block, size, shadow, icon }: ButtonOptions) => string;
+export declare const resolveButtonClassNames: ({ disabled, circle, intent, variant, className, block, size, shadow, icon }: ButtonOptions) => string;
 export declare const Button: React.ForwardRefExoticComponent<React.ButtonHTMLAttributes<HTMLElement> & ButtonOptions & React.RefAttributes<HTMLButtonElement>>;
+export {};

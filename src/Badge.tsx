@@ -1,14 +1,13 @@
-import { Variant } from 'index';
 import { ButtonHTMLAttributes, FC } from 'react';
-import { Intent } from './types';
+import { Intent, Variant } from 'types';
 
 export type BadgeProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-	intent?: Intent;
 	variant?: Variant;
+	intent?: Intent;
 	inverse?: boolean;
 };
 
-export const Badge: FC<BadgeProps> = ({ variant, intent, inverse = false, className = '', ...props }) => {
+export const Badge: FC<BadgeProps> = ({ variant, inverse = false, className = '', ...props }) => {
 	let hover = '',
 		active = '',
 		disabled = 'disabled:bg-opacity-50';
@@ -34,7 +33,7 @@ export const Badge: FC<BadgeProps> = ({ variant, intent, inverse = false, classN
 			className += ' bg-green-200 text-green-800';
 			active += 'active:bg-green-600';
 			break;
-		case Variant.neutral:
+		case Variant.dark:
 			className += ' bg-gray-300';
 			disabled += ' disabled:text-gray-500';
 			break;
@@ -46,7 +45,7 @@ export const Badge: FC<BadgeProps> = ({ variant, intent, inverse = false, classN
 			break;
 	}
 
-	const Tag = !!props.type ? 'button' : 'span';
+	const Tag = !!props.type || props.onClick ? 'button' : 'span';
 
 	return (
 		<Tag

@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes, FC } from 'react';
-import { Intent } from './types';
+import { Intent, Variant } from 'types';
 export declare type BadgeProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+    variant?: Variant;
     intent?: Intent;
     inverse?: boolean;
 };
