@@ -12,12 +12,15 @@ export type AlertProps = {
 };
 
 export const Alert: FC<AlertProps> = ({ className = '', size = Size.md, icon, variant, onClose, children }) => {
+	let textClassName = '';
+
 	switch (variant) {
 		case Variant.danger:
 			className += ' border-red-700 text-red-700 bg-red-100';
 			icon = icon || 'exclamation-circle';
 			break;
 		case Variant.warning:
+			textClassName += ' text-yellow-600';
 			className += ' border-yellow-700 text-yellow-700 bg-yellow-100';
 			icon = icon || 'exclamation-triangle';
 			break;
@@ -49,7 +52,7 @@ export const Alert: FC<AlertProps> = ({ className = '', size = Size.md, icon, va
 					</button>
 				)}
 				{icon !== undefined && <FontAwesomeIcon icon={icon} className="mt-1 mr-2" />}
-				<p className="flex-1">{children}</p>
+				<div className={`flex-1 ${textClassName}`}>{children}</div>
 			</div>
 		</div>
 	);
