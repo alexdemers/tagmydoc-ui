@@ -113,33 +113,33 @@ export const resolveButtonClassNames = ({ disabled = false, circle = false, inte
 			border: intent === Intent.secondary && variant !== undefined,
 
 			// Size.xs
-			'text-xs rounded': size === Size.xs,
-			'px-2 py-0.5': size === Size.xs && !circle,
+			'text-xs': size === Size.xs,
+			'px-2 py-0.5 rounded': size === Size.xs && !circle,
 			'w-6 h-6': size === Size.xs && circle,
 
 			// Size.sm
-			'text-sm rounded': size === Size.sm,
-			'px-3 py-1': size === Size.sm && !circle,
+			'text-sm': size === Size.sm,
+			'px-3 py-1 rounded': size === Size.sm && !circle,
 			'w-8 h-8': size === Size.sm && circle,
 
 			// Size.md
-			'text-base rounded-md': size === Size.md,
-			'px-3 py-1.5': size === Size.md && !circle,
+			'text-base': size === Size.md,
+			'px-3 py-1.5 rounded-md': size === Size.md && !circle,
 			'h-10 w-10': size === Size.md && circle,
 
 			// Size.lg
-			'text-lg rounded-md font-medium': size === Size.lg,
-			'px-5 py-2': size === Size.lg && !circle,
+			'text-lg font-medium': size === Size.lg,
+			'px-5 py-2 rounded-md': size === Size.lg && !circle,
 			'h-12 w-12': size === Size.lg && circle,
 
 			// Size.xl
-			'text-xl rounded-lg font-semibold': size === Size.xl,
-			'px-5 py-3': size === Size.xl && !circle,
+			'text-xl font-semibold': size === Size.xl,
+			'px-5 py-3 rounded-lg': size === Size.xl && !circle,
 			'h-16 w-16': size === Size.xl && circle,
 
 			// Size['2xl']
-			'text-2xl rounded-lg font-semibold': size === Size['2xl'],
-			'px-6 py-4': size === Size['2xl'] && !circle,
+			'text-2xl font-semibold': size === Size['2xl'],
+			'px-6 py-4 rounded-lg': size === Size['2xl'] && !circle,
 			'h-20 w-20': size === Size['2xl'] && circle,
 
 			// circle

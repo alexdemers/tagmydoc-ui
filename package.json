@@ -26,14 +26,12 @@
 		"@fortawesome/react-fontawesome": "^0.1.14",
 		"classnames": "^2.3.1",
 		"date-fns": "^2.21.1",
-		"react": "^17.0.2",
-		"react-dom": "^17.0.2",
 		"react-input-mask": "^2.0.4",
-		"react-modal": "^3.13.1"
+		"react-modal": "^3.14.4"
 	},
 	"peerDependencies": {
-		"react": "16.14.0",
-		"react-dom": "16.14.0"
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2"
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^21.0.1",
