@@ -21,6 +21,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ID } from './StringUtils';
 import { Intent, Size } from './types';
 import { parseISO } from 'date-fns';
+import classNames from 'classnames';
 
 export const InputClassNames =
 	'border border-gray-300 focus-within:outline-none focus-within:ring-blue-200 focus-within:ring focus-within:border-blue-400 bg-white rounded disabled:bg-gray-200 transition-shadow';
@@ -31,39 +32,34 @@ export const Label: FC<LabelHTMLAttributes<HTMLLabelElement>> = ({ className = '
 
 export const HelperText: FC<HTMLAttributes<HTMLParagraphElement>> = ({ className = '', ...props }) => <p className={`mt-1 text-xs text-gray-600 ${className}`} {...props} />;
 
-export const Toggle: FC<ToggleProps> = ({ intent = Intent.primary, size = Size.md, className = '', checked, ...props }) => {
+export const Toggle: FC<ToggleProps> = ({ intent = Intent.primary, size = Size.md, className = '', checked, disabled, ...props }) => {
 	const id = useRef(ID());
 
-	let containerClassName = '';
-	let toggleClassName = '';
+	const containerClassName = classNames('relative rounded-full transition', {
+		'w-10 h-5': size === Size.sm,
+		'w-12 h-6': size === Size.md,
+		'bg-blue-500': checked,
+		'bg-gray-400': !checked,
+		'opacity-50': disabled
+	});
 
-	switch (size) {
-		case Size.sm:
-			containerClassName = 'w-10 h-5';
-			toggleClassName = 'mb-1 w-5 h-5';
-			break;
-		case Size.md:
-			containerClassName = 'w-12 h-6';
-			toggleClassName = 'mb-2 w-6 h-6';
-			break;
-	}
+	const labelClassName = classNames('absolute left-0 bg-white border-2 rounded-full transition transform duration-100 ease-linear cursor-pointer', {
+		'mb-1 w-5 h-5': size === Size.sm,
+		'mb-2 w-6 h-6': size === Size.md,
+		'translate-x-full border-blue-500': checked,
+		'translate-x-0 border-gray-400': !checked
+	});
+
+	const inputClassName = classNames(
+		'w-full h-full p-0 text-transparent bg-transparent border-0 appearance-none focus:ring-0 focus:ring-offset-0 focus:outline-none checked:bg-none bg-none active:outline-none',
+		{}
+	);
 
 	return (
 		<div className={`inline-flex items-center justify-center cursor-pointer ${className}`}>
-			<div className={`relative rounded-full ${containerClassName} transition ${checked ? 'bg-blue-500' : 'bg-gray-400'}`}>
-				<label
-					htmlFor={props.id || `toggle-${id.current}`}
-					className={`${
-						checked ? 'translate-x-full border-blue-500' : 'translate-x-0 border-gray-400'
-					} absolute left-0 bg-white border-2 ${toggleClassName} rounded-full transition transform duration-100 ease-linear cursor-pointer`}
-				/>
-				<input
-					{...props}
-					checked={checked}
-					type="checkbox"
-					id={props.id || `toggle-${id.current}`}
-					className="w-full h-full p-0 text-transparent bg-transparent border-0 appearance-none focus:ring-0 focus:ring-offset-0 focus:outline-none checked:bg-none bg-none active:outline-none"
-				/>
+			<div className={containerClassName}>
+				<label htmlFor={props.id ?? `toggle-${id.current}`} className={labelClassName} />
+				<input {...props} checked={checked} disabled={disabled} type="checkbox" id={props.id ?? `toggle-${id.current}`} className={inputClassName} />
 			</div>
 		</div>
 	);

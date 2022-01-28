@@ -14,20 +14,22 @@ type ButtonOptions = {
 	shadow?: boolean;
 	variant?: Variant;
 	icon?: IconProp;
+	iconPosition?: 'left' | 'right';
 };
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLElement> & ButtonOptions;
 
-const ButtonRenderFunction: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = ({ children, icon, ...props }, ref) => {
+const ButtonRenderFunction: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = ({ children, icon, iconPosition = 'left', ...props }, ref) => {
 	return (
 		<button {...props} ref={ref} className={resolveButtonClassNames({ icon, ...props })}>
+			{icon !== undefined && iconPosition === 'left' && <FontAwesomeIcon icon={icon} className={resolveButtonIconClassNames({ icon, iconPosition, ...props })} />}
 			{children}
-			{icon !== undefined && <FontAwesomeIcon icon={icon} className={resolveButtonIconClassNames({ icon, ...props })} />}
+			{icon !== undefined && iconPosition === 'right' && <FontAwesomeIcon icon={icon} className={resolveButtonIconClassNames({ icon, iconPosition, ...props })} />}
 		</button>
 	);
 };
 
-const resolveButtonIconClassNames = ({ disabled = false, circle = false, intent = Intent.primary, variant, className = '', size = Size.md }: ButtonOptions) => {
+const resolveButtonIconClassNames = ({ disabled = false, circle = false, intent = Intent.primary, variant, className = '', size = Size.md, iconPosition = 'left' }: ButtonOptions) => {
 	return classNames(className, {
 		'text-white': intent === Intent.primary,
 		'text-blue-600': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.primary,
@@ -37,12 +39,20 @@ const resolveButtonIconClassNames = ({ disabled = false, circle = false, intent 
 		'text-gray-600': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.light,
 		// 'text-white': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.dark,
 
-		'ml-1.5 group-hover:translate-x-0.5': size === Size.xs && !circle,
-		'ml-2 group-hover:translate-x-0.5': size === Size.sm && !circle,
-		'ml-2.5 group-hover:translate-x-0.5': size === Size.md && !circle,
-		'ml-3 group-hover:translate-x-1': size === Size.lg && !circle,
-		'ml-3 group-hover:translate-x-1 ': size === Size.xl && !circle,
-		'ml-3.5 group-hover:translate-x-1': size === Size['2xl'] && !circle,
+		'ml-1.5 group-hover:translate-x-0.5': size === Size.xs && !circle && iconPosition === 'right',
+		'ml-2 group-hover:translate-x-0.5': size === Size.sm && !circle && iconPosition === 'right',
+		'ml-2.5 group-hover:translate-x-0.5': size === Size.md && !circle && iconPosition === 'right',
+		'ml-3 group-hover:translate-x-1': size === Size.lg && !circle && iconPosition === 'right',
+		'ml-3 group-hover:translate-x-1 ': size === Size.xl && !circle && iconPosition === 'right',
+		'ml-3.5 group-hover:translate-x-1': size === Size['2xl'] && !circle && iconPosition === 'right',
+
+		'mr-1.5 group-hover:translate-x-0.5': size === Size.xs && !circle && iconPosition === 'left',
+		'mr-2 group-hover:translate-x-0.5': size === Size.sm && !circle && iconPosition === 'left',
+		'mr-2.5 group-hover:translate-x-0.5': size === Size.md && !circle && iconPosition === 'left',
+		'mr-3 group-hover:translate-x-1': size === Size.lg && !circle && iconPosition === 'left',
+		'mr-3 group-hover:translate-x-1 ': size === Size.xl && !circle && iconPosition === 'left',
+		'mr-3.5 group-hover:translate-x-1': size === Size['2xl'] && !circle && iconPosition === 'left',
+
 		'transition-all transform': !disabled
 	});
 };

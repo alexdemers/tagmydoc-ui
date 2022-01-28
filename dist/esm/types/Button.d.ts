@@ -11,6 +11,7 @@ declare type ButtonOptions = {
     shadow?: boolean;
     variant?: Variant;
     icon?: IconProp;
+    iconPosition?: 'left' | 'right';
 };
 export declare type ButtonProps = React.ButtonHTMLAttributes<HTMLElement> & ButtonOptions;
 export declare const resolveButtonClassNames: ({ disabled, circle, intent, variant, className, block, size, shadow, icon }: ButtonOptions) => string;
