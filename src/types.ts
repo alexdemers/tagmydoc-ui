@@ -7,13 +7,18 @@ export enum Size {
 	'2xl' = '2xl'
 }
 
-export enum Intent {
+export enum Variant {
+	primary = 'primary',
 	danger = 'danger',
 	info = 'info',
 	warning = 'warning',
 	success = 'success',
+	dark = 'dark',
+	light = 'light'
+}
+
+export enum Intent {
 	primary = 'primary',
 	secondary = 'secondary',
-	tertiary = 'tertiary',
-	neutral = 'neutral'
+	tertiary = 'tertiary'
 }

@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import BaseModal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -11,7 +11,7 @@ export enum ModalSize {
 	XLarge = 'max-w-4xl'
 }
 
-export type ModalProps = PropsWithChildren<BaseModal.Props> & {
+export type ModalProps = BaseModal.Props & {
 	size?: ModalSize;
 	className?: string;
 	onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -22,7 +22,7 @@ interface ModalBodyProps {
 	disabled?: boolean;
 }
 
-const Modal: FC<ModalProps> = ({ size = ModalSize.Medium, onSubmit, className = '', isOpen = false, ...props }) => {
+export const Modal: FC<ModalProps> = ({ size = ModalSize.Medium, onSubmit, className = '', isOpen = false, ...props }) => {
 	const [doneOpening, setDoneOpening] = useState(false);
 
 	useEffect(() => {
@@ -55,22 +55,35 @@ const Modal: FC<ModalProps> = ({ size = ModalSize.Medium, onSubmit, className = 
 	);
 };
 
-export const ModalHeader = ({ className = '', children }: PropsWithChildren<{ className?: string }>) => {
+export type ModalHeaderProps = {
+	className?: string;
+};
+
+export const ModalHeader: FC<ModalHeaderProps> = ({ className = '', children }) => {
 	return <header className={`${className} px-8 pt-8 flex items-start justify-between`}>{children}</header>;
 };
 
-export const ModalHeaderOnlyTitle = ({ className = '', icon = null, children }: PropsWithChildren<{ className?: string; icon?: IconProp | null }>) => {
+export type ModalHeaderOnlyTitleProps = {
+	className?: string;
+	icon?: IconProp;
+};
+
+export const ModalHeaderOnlyTitle: FC<ModalHeaderOnlyTitleProps> = ({ className = '', icon, children }) => {
 	return (
 		<ModalHeader className={className}>
 			<h3 className="text-lg font-medium text-gray-900">
-				{icon !== null && <FontAwesomeIcon icon={icon} className="mr-2 text-gray-400" />}
+				{icon !== undefined && <FontAwesomeIcon icon={icon} className="mr-2 text-gray-400" />}
 				{children}
 			</h3>
 		</ModalHeader>
 	);
 };
 
-export const ModalFooter = ({ className = '', children }: PropsWithChildren<{ className?: string }>) => {
+export type ModalFooterProps = {
+	className?: string;
+};
+
+export const ModalFooter: FC<ModalFooterProps> = ({ className = '', children }) => {
 	return <footer className={`${className} sm:rounded-b-xl px-8 py-4 bg-gray-100 items-center space-x-4 flex`}>{children}</footer>;
 };
 
@@ -82,5 +95,3 @@ export const ModalBody: FC<ModalBodyProps> = ({ className = '', disabled = undef
 		</Tag>
 	);
 };
-
-export default Modal;

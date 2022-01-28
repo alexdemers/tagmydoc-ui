@@ -1,38 +1,39 @@
-import React, { ButtonHTMLAttributes, FC } from 'react';
-import { Intent } from './types';
+import { ButtonHTMLAttributes, FC } from 'react';
+import { Intent, Variant } from 'types';
 
-type BadgeProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+export type BadgeProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+	variant?: Variant;
 	intent?: Intent;
 	inverse?: boolean;
 };
 
-const Badge: FC<BadgeProps> = ({ intent = null, inverse = false, className = '', ...props }) => {
+export const Badge: FC<BadgeProps> = ({ variant, inverse = false, className = '', ...props }) => {
 	let hover = '',
 		active = '',
 		disabled = 'disabled:bg-opacity-50';
 
-	switch (intent) {
-		case Intent.danger:
+	switch (variant) {
+		case Variant.danger:
 			hover += 'hover:bg-red-600';
 			className += ` ${inverse ? 'bg-red-600 text-white' : 'bg-red-200 text-red-800'}`;
 			active += 'active:bg-red-800';
 			break;
-		case Intent.warning:
+		case Variant.warning:
 			hover += 'hover:bg-yellow-500';
 			className += ' bg-yellow-300 text-yellow-800';
 			active += 'active:bg-yellow-700';
 			break;
-		case Intent.primary:
+		case Variant.primary:
 			hover += 'hover:bg-blue-400';
 			className += ' bg-blue-200 text-blue-800';
 			active += 'active:bg-blue-600';
 			break;
-		case Intent.success:
+		case Variant.success:
 			hover += 'hover:bg-green-400';
 			className += ' bg-green-200 text-green-800';
 			active += 'active:bg-green-600';
 			break;
-		case Intent.secondary:
+		case Variant.dark:
 			className += ' bg-gray-300';
 			disabled += ' disabled:text-gray-500';
 			break;
@@ -44,7 +45,7 @@ const Badge: FC<BadgeProps> = ({ intent = null, inverse = false, className = '',
 			break;
 	}
 
-	const Tag = !!props.type ? 'button' : 'span';
+	const Tag = !!props.type || props.onClick ? 'button' : 'span';
 
 	return (
 		<Tag
@@ -55,5 +56,3 @@ const Badge: FC<BadgeProps> = ({ intent = null, inverse = false, className = '',
 		/>
 	);
 };
-
-export default Badge;
