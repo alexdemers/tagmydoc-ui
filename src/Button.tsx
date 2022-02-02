@@ -123,6 +123,11 @@ export const resolveButtonClassNames = ({ disabled = false, circle = false, inte
 			border: intent === Intent.secondary && variant !== undefined,
 
 			// Size.xs
+			'text-[10px] ': size === Size.xxs,
+			'px-1.5 rounded': size === Size.xxs && !circle,
+			'w-4 h-4': size === Size.xxs && circle,
+
+			// Size.xs
 			'text-xs': size === Size.xs,
 			'px-2 py-0.5 rounded': size === Size.xs && !circle,
 			'w-6 h-6': size === Size.xs && circle,

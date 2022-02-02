@@ -22,6 +22,7 @@ declare type BadgeProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 declare const Badge: FC<BadgeProps>;
 
 declare enum Size {
+    xxs = "xxs",
     xs = "xs",
     sm = "sm",
     md = "md",
