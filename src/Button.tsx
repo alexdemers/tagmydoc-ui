@@ -32,11 +32,11 @@ const ButtonRenderFunction: ForwardRefRenderFunction<HTMLButtonElement, ButtonPr
 const resolveButtonIconClassNames = ({ disabled = false, circle = false, intent = Intent.primary, variant, className = '', size = Size.md, iconPosition = 'left' }: ButtonOptions) => {
 	return classNames(className, {
 		'text-white': intent === Intent.primary,
-		'text-blue-600': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.primary,
-		'text-green-600': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.success,
-		'text-yellow-600': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.warning,
-		'text-red-600': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.danger,
-		'text-gray-600': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.light,
+		'text-blue-600 group-active:text-white': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.primary,
+		'text-green-600 group-active:text-white': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.success,
+		'text-yellow-600 group-active:text-white': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.warning,
+		'text-red-600 group-active:text-white': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.danger,
+		'text-gray-600 group-active:text-white': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.light,
 		// 'text-white': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.dark,
 
 		'ml-1.5 group-hover:translate-x-0.5': size === Size.xs && !circle && iconPosition === 'right',

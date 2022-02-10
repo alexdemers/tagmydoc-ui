@@ -226,19 +226,26 @@ const SelectRenderFunction: ForwardRefRenderFunction<HTMLSelectElement, SelectPr
 	return <select ref={ref} className={`${className} ${InputClassNames}`} {...props} />;
 };
 
-const isDateTimeLocalSupported = false;
+const _dateTimeInput = document.createElement('input');
+_dateTimeInput.setAttribute('type', 'date');
+_dateTimeInput.setAttribute('value', 'a');
+const isDateTimeLocalSupported = _dateTimeInput.value !== 'a';
 
 export type InputDateTimeProps = Omit<InputProps, 'onChange'> & {
 	onChange?: (datetimeIso: string) => void;
 };
 
-export const InputDateTime: FC<InputDateTimeProps> = ({ value: initialValue, onChange, ...inputProps }) => {
+export const InputDateTime: FC<InputDateTimeProps> = ({ onChange = () => {}, ...inputProps }) => {
+	if (isDateTimeLocalSupported) {
+		return <Input type="datetime-local" onChange={e => onChange(e.target.value)} {...inputProps} />;
+	}
+
+	return <InputDateTimePolyfill onChange={onChange} {...inputProps} />;
+};
+
+const InputDateTimePolyfill: FC<InputDateTimeProps> = ({ onChange = () => {}, ...inputProps }) => {
 	const [polyfillDateValue, setPolyfillDateValue] = useState<string | number | readonly string[] | undefined>();
 	const [polyfillTimeValue, setPolyfillTimeValue] = useState<string | number | readonly string[] | undefined>();
-
-	const nativeOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-		onChange && onChange(e.target.value);
-	};
 
 	const dateOnChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setPolyfillDateValue(e.target.value);
@@ -250,7 +257,7 @@ export const InputDateTime: FC<InputDateTimeProps> = ({ value: initialValue, onC
 
 	useEffect(() => {
 		if (!polyfillDateValue || !polyfillTimeValue) {
-			onChange && onChange('');
+			onChange('');
 			return;
 		}
 
@@ -261,10 +268,6 @@ export const InputDateTime: FC<InputDateTimeProps> = ({ value: initialValue, onC
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [polyfillDateValue, polyfillTimeValue]);
-
-	if (isDateTimeLocalSupported) {
-		return <Input type="datetime-local" onChange={nativeOnChange} {...inputProps} />;
-	}
 
 	return (
 		<span className={`inline-flex ${InputClassNames}`}>
