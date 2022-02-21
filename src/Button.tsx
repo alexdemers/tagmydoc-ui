@@ -14,22 +14,25 @@ type ButtonOptions = {
 	shadow?: boolean;
 	variant?: Variant;
 	icon?: IconProp;
-	iconPosition?: 'left' | 'right';
+	iconStart?: IconProp;
+	iconEnd?: IconProp;
+	loading?: boolean;
 };
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLElement> & ButtonOptions;
 
-const ButtonRenderFunction: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = ({ children, icon, iconPosition = 'left', ...props }, ref) => {
+const ButtonRenderFunction: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = ({ children, icon, iconStart, iconEnd, loading = false, ...props }, ref) => {
 	return (
-		<button {...props} ref={ref} className={resolveButtonClassNames({ icon, ...props })}>
-			{icon !== undefined && iconPosition === 'left' && <FontAwesomeIcon icon={icon} className={resolveButtonIconClassNames({ icon, iconPosition, ...props })} />}
+		<button {...props} ref={ref} className={resolveButtonClassNames({ iconStart: iconStart ?? icon, iconEnd, ...props })}>
+			{icon !== undefined && <FontAwesomeIcon icon={loading ? 'spinner' : icon} pulse={loading} className={resolveButtonIconClassNames({ iconStart: icon, ...props })} />}
+			{iconStart !== undefined && <FontAwesomeIcon icon={loading ? 'spinner' : iconStart} pulse={loading} className={resolveButtonIconClassNames({ iconStart, ...props })} />}
 			{children}
-			{icon !== undefined && iconPosition === 'right' && <FontAwesomeIcon icon={icon} className={resolveButtonIconClassNames({ icon, iconPosition, ...props })} />}
+			{iconEnd !== undefined && <FontAwesomeIcon icon={loading ? 'spinner' : iconEnd} pulse={loading} className={resolveButtonIconClassNames({ iconEnd, ...props })} />}
 		</button>
 	);
 };
 
-const resolveButtonIconClassNames = ({ disabled = false, circle = false, intent = Intent.primary, variant, className = '', size = Size.md, iconPosition = 'left' }: ButtonOptions) => {
+const resolveButtonIconClassNames = ({ iconStart, iconEnd, disabled = false, circle = false, intent = Intent.primary, variant, className = '', size = Size.md }: ButtonOptions) => {
 	return classNames(className, {
 		'text-white': intent === Intent.primary,
 		'text-blue-600 group-active:text-white': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.primary,
@@ -39,25 +42,36 @@ const resolveButtonIconClassNames = ({ disabled = false, circle = false, intent 
 		'text-gray-600 group-active:text-white': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.light,
 		// 'text-white': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.dark,
 
-		'ml-1.5 group-hover:translate-x-0.5': size === Size.xs && !circle && iconPosition === 'right',
-		'ml-2 group-hover:translate-x-0.5': size === Size.sm && !circle && iconPosition === 'right',
-		'ml-2.5 group-hover:translate-x-0.5': size === Size.md && !circle && iconPosition === 'right',
-		'ml-3 group-hover:translate-x-1': size === Size.lg && !circle && iconPosition === 'right',
-		'ml-3 group-hover:translate-x-1 ': size === Size.xl && !circle && iconPosition === 'right',
-		'ml-3.5 group-hover:translate-x-1': size === Size['2xl'] && !circle && iconPosition === 'right',
+		'ml-1.5 group-hover:translate-x-0.5': size === Size.xs && !circle && iconEnd !== undefined,
+		'ml-2 group-hover:translate-x-0.5': size === Size.sm && !circle && iconEnd !== undefined,
+		'ml-2.5 group-hover:translate-x-0.5': size === Size.md && !circle && iconEnd !== undefined,
+		'ml-3 group-hover:translate-x-1': size === Size.lg && !circle && iconEnd !== undefined,
+		'ml-3 group-hover:translate-x-1 ': size === Size.xl && !circle && iconEnd !== undefined,
+		'ml-3.5 group-hover:translate-x-1': size === Size['2xl'] && !circle && iconEnd !== undefined,
 
-		'mr-1.5 group-hover:translate-x-0.5': size === Size.xs && !circle && iconPosition === 'left',
-		'mr-2 group-hover:translate-x-0.5': size === Size.sm && !circle && iconPosition === 'left',
-		'mr-2.5 group-hover:translate-x-0.5': size === Size.md && !circle && iconPosition === 'left',
-		'mr-3 group-hover:translate-x-1': size === Size.lg && !circle && iconPosition === 'left',
-		'mr-3 group-hover:translate-x-1 ': size === Size.xl && !circle && iconPosition === 'left',
-		'mr-3.5 group-hover:translate-x-1': size === Size['2xl'] && !circle && iconPosition === 'left',
+		'mr-1.5 group-hover:translate-x-0.5': size === Size.xs && !circle && iconStart !== undefined,
+		'mr-2 group-hover:translate-x-0.5': size === Size.sm && !circle && iconStart !== undefined,
+		'mr-2.5 group-hover:translate-x-0.5': size === Size.md && !circle && iconStart !== undefined,
+		'mr-3 group-hover:translate-x-1': size === Size.lg && !circle && iconStart !== undefined,
+		'mr-3 group-hover:translate-x-1 ': size === Size.xl && !circle && iconStart !== undefined,
+		'mr-3.5 group-hover:translate-x-1': size === Size['2xl'] && !circle && iconStart !== undefined,
 
 		'transition-all transform': !disabled
 	});
 };
 
-export const resolveButtonClassNames = ({ disabled = false, circle = false, intent = Intent.primary, variant, className = '', block = false, size = Size.md, shadow = false, icon }: ButtonOptions) => {
+export const resolveButtonClassNames = ({
+	disabled = false,
+	circle = false,
+	intent = Intent.primary,
+	variant,
+	className = '',
+	block = false,
+	size = Size.md,
+	shadow = false,
+	iconStart,
+	iconEnd
+}: ButtonOptions) => {
 	return classNames(
 		className,
 		'focus:ring focus:ring-opacity-30 disabled:opacity-50 select-none disabled:cursor-default transition-all focus:outline-none ease-in-out duration-200 whitespace-nowrap items-center justify-center',
@@ -165,7 +179,7 @@ export const resolveButtonClassNames = ({ disabled = false, circle = false, inte
 			'inline-flex flex-wrap': !block,
 
 			// icon
-			group: icon !== undefined,
+			group: iconStart !== undefined || iconEnd !== undefined,
 
 			// shadow && !disabled
 			'shadow-md active:shadow-none': shadow && !disabled && intent !== Intent.tertiary

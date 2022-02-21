@@ -55,10 +55,12 @@ declare type ButtonOptions = {
     shadow?: boolean;
     variant?: Variant;
     icon?: IconProp;
-    iconPosition?: 'left' | 'right';
+    iconStart?: IconProp;
+    iconEnd?: IconProp;
+    loading?: boolean;
 };
 declare type ButtonProps = react__default.ButtonHTMLAttributes<HTMLElement> & ButtonOptions;
-declare const resolveButtonClassNames: ({ disabled, circle, intent, variant, className, block, size, shadow, icon }: ButtonOptions) => string;
+declare const resolveButtonClassNames: ({ disabled, circle, intent, variant, className, block, size, shadow, iconStart, iconEnd }: ButtonOptions) => string;
 declare const Button: react__default.ForwardRefExoticComponent<react__default.ButtonHTMLAttributes<HTMLElement> & ButtonOptions & react__default.RefAttributes<HTMLButtonElement>>;
 
 declare const InputClassNames = "border border-gray-300 focus-within:outline-none focus-within:ring-blue-200 focus-within:ring focus-within:border-blue-400 bg-white rounded disabled:bg-gray-200 transition-shadow";
