@@ -72,7 +72,7 @@ declare type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
     block?: boolean;
     size?: Size;
 };
-declare type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
+declare type InputProps$1 = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
     icon?: FontAwesomeIconProps | IconProp | null;
     iconColor?: string;
     block?: boolean;
@@ -80,7 +80,7 @@ declare type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & 
     maskChar?: string | null;
     size?: Size;
 };
-declare type InputGroupProps = InputProps & {
+declare type InputGroupProps = InputProps$1 & {
     appended?: ReactNode;
     prepended?: ReactNode;
 };
@@ -159,6 +159,20 @@ declare const TextArea: react.ForwardRefExoticComponent<TextareaHTMLAttributes<H
     size?: Size | undefined;
 } & react.RefAttributes<HTMLTextAreaElement>>;
 
+declare type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
+    icon?: FontAwesomeIconProps | IconProp | null;
+    iconColor?: string;
+    block?: boolean;
+    mask?: string | Array<string | RegExp>;
+    maskChar?: string | null;
+    size?: Size;
+};
+
+declare type InputDateTimeProps = Omit<InputProps, 'onChange'> & {
+    onChange?: (datetimeIso: string) => void;
+};
+declare const InputDateTime: FC<InputDateTimeProps>;
+
 declare enum ModalSize {
     XSmall = "max-w-md",
     Small = "max-w-xl",
@@ -198,4 +212,4 @@ declare const ModalBody: FC<ModalBodyProps>;
  */
 declare const ID: () => string;
 
-export { Alert, AlertProps, Badge, BadgeProps, Button, ButtonProps, Checkbox, HelperText, ID, Input, InputBlock, InputClassNames, InputGroup, InputGroupProps, InputProps, Intent, Label, Modal, ModalBody, ModalFooter, ModalFooterProps, ModalHeader, ModalHeaderOnlyTitle, ModalHeaderOnlyTitleProps, ModalHeaderProps, ModalProps, ModalSize, PasswordInput, PasswordInputBlock, Row, Select, SelectProps, Size, TextArea, TextAreaProps, Toggle, ToggleProps, ValidationField, Variant, resolveButtonClassNames };
+export { Alert, AlertProps, Badge, BadgeProps, Button, ButtonProps, Checkbox, HelperText, ID, Input, InputBlock, InputClassNames, InputDateTime, InputDateTimeProps, InputGroup, InputGroupProps, InputProps$1 as InputProps, Intent, Label, Modal, ModalBody, ModalFooter, ModalFooterProps, ModalHeader, ModalHeaderOnlyTitle, ModalHeaderOnlyTitleProps, ModalHeaderProps, ModalProps, ModalSize, PasswordInput, PasswordInputBlock, Row, Select, SelectProps, Size, TextArea, TextAreaProps, Toggle, ToggleProps, ValidationField, Variant, resolveButtonClassNames };

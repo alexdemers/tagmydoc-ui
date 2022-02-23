@@ -12,7 +12,7 @@ export type InputDateTimeProps = Omit<InputProps, 'onChange'> & {
 };
 
 export const InputDateTime: FC<InputDateTimeProps> = ({ onChange = () => {}, ...inputProps }) => {
-	if (!isDateTimeLocalSupported) {
+	if (isDateTimeLocalSupported) {
 		return <Input type="datetime-local" onChange={e => onChange(e.target.value)} {...inputProps} />;
 	}
 
