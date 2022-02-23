@@ -1,27 +1,24 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
 import {
+	cloneElement,
 	FC,
 	forwardRef,
 	ForwardRefRenderFunction,
-	ReactNode,
-	useRef,
-	SelectHTMLAttributes,
-	useState,
-	useEffect,
-	LabelHTMLAttributes,
 	HTMLAttributes,
 	InputHTMLAttributes,
-	ChangeEvent,
+	LabelHTMLAttributes,
+	ReactNode,
+	SelectHTMLAttributes,
 	TextareaHTMLAttributes,
 	useLayoutEffect,
-	cloneElement
+	useRef,
+	useState
 } from 'react';
-import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import InputMask from 'react-input-mask';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { ID } from './StringUtils';
-import { Intent, Size } from './types';
-import { parseISO } from 'date-fns';
-import classNames from 'classnames';
+import { ID } from '../StringUtils';
+import { Intent, Size } from '../types';
 
 export const InputClassNames =
 	'border border-gray-300 focus-within:outline-none focus-within:ring-blue-200 focus-within:ring focus-within:border-blue-400 bg-white rounded disabled:bg-gray-200 transition-shadow';
@@ -224,57 +221,6 @@ const SelectRenderFunction: ForwardRefRenderFunction<HTMLSelectElement, SelectPr
 	}
 
 	return <select ref={ref} className={`${className} ${InputClassNames}`} {...props} />;
-};
-
-const _dateTimeInput = document.createElement('input');
-_dateTimeInput.setAttribute('type', 'date');
-_dateTimeInput.setAttribute('value', 'a');
-const isDateTimeLocalSupported = _dateTimeInput.value !== 'a';
-
-export type InputDateTimeProps = Omit<InputProps, 'onChange'> & {
-	onChange?: (datetimeIso: string) => void;
-};
-
-export const InputDateTime: FC<InputDateTimeProps> = ({ onChange = () => {}, ...inputProps }) => {
-	if (isDateTimeLocalSupported) {
-		return <Input type="datetime-local" onChange={e => onChange(e.target.value)} {...inputProps} />;
-	}
-
-	return <InputDateTimePolyfill onChange={onChange} {...inputProps} />;
-};
-
-const InputDateTimePolyfill: FC<InputDateTimeProps> = ({ onChange = () => {}, ...inputProps }) => {
-	const [polyfillDateValue, setPolyfillDateValue] = useState<string | number | readonly string[] | undefined>();
-	const [polyfillTimeValue, setPolyfillTimeValue] = useState<string | number | readonly string[] | undefined>();
-
-	const dateOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setPolyfillDateValue(e.target.value);
-	};
-
-	const timeOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setPolyfillTimeValue(e.target.value);
-	};
-
-	useEffect(() => {
-		if (!polyfillDateValue || !polyfillTimeValue) {
-			onChange('');
-			return;
-		}
-
-		const datetime = parseISO(`${polyfillDateValue} ${polyfillTimeValue}`);
-		// eslint-disable-next-line no-self-compare
-		if (datetime.getTime() === datetime.getTime()) {
-			onChange && onChange(`${polyfillDateValue}T${polyfillTimeValue}`);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [polyfillDateValue, polyfillTimeValue]);
-
-	return (
-		<span className={`inline-flex ${InputClassNames}`}>
-			<input type="date" className="bg-transparent border-0 focus:ring-0" value={polyfillDateValue} onChange={dateOnChange} />
-			<input type="time" className="bg-transparent border-0 focus:ring-0" value={polyfillTimeValue} onChange={timeOnChange} />
-		</span>
-	);
 };
 
 type ValidationFieldProps = {

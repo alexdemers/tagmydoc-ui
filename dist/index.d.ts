@@ -92,10 +92,6 @@ declare type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'>
     size?: Size;
     block?: boolean;
 };
-declare type InputDateTimeProps = Omit<InputProps, 'onChange'> & {
-    onChange?: (datetimeIso: string) => void;
-};
-declare const InputDateTime: FC<InputDateTimeProps>;
 declare type ValidationFieldProps = {
     validation: Record<string, string[]>;
     fieldName: string;
@@ -202,4 +198,4 @@ declare const ModalBody: FC<ModalBodyProps>;
  */
 declare const ID: () => string;
 
-export { Alert, AlertProps, Badge, BadgeProps, Button, ButtonProps, Checkbox, HelperText, ID, Input, InputBlock, InputClassNames, InputDateTime, InputDateTimeProps, InputGroup, InputGroupProps, InputProps, Intent, Label, Modal, ModalBody, ModalFooter, ModalFooterProps, ModalHeader, ModalHeaderOnlyTitle, ModalHeaderOnlyTitleProps, ModalHeaderProps, ModalProps, ModalSize, PasswordInput, PasswordInputBlock, Row, Select, SelectProps, Size, TextArea, TextAreaProps, Toggle, ToggleProps, ValidationField, Variant, resolveButtonClassNames };
+export { Alert, AlertProps, Badge, BadgeProps, Button, ButtonProps, Checkbox, HelperText, ID, Input, InputBlock, InputClassNames, InputGroup, InputGroupProps, InputProps, Intent, Label, Modal, ModalBody, ModalFooter, ModalFooterProps, ModalHeader, ModalHeaderOnlyTitle, ModalHeaderOnlyTitleProps, ModalHeaderProps, ModalProps, ModalSize, PasswordInput, PasswordInputBlock, Row, Select, SelectProps, Size, TextArea, TextAreaProps, Toggle, ToggleProps, ValidationField, Variant, resolveButtonClassNames };
