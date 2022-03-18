@@ -20,10 +20,9 @@ import InputMask from 'react-input-mask';
 import { ID } from '../StringUtils';
 import { Intent, Size } from '../types';
 
-export const InputClassNames =
-	'border border-gray-300 focus-within:outline-none focus-within:ring-blue-200 focus-within:ring focus-within:border-blue-400 bg-white rounded disabled:bg-gray-200 transition-shadow';
+export const InputClassNames = 'border focus:outline-none border-gray-300 focus:ring-blue-200 focus:ring focus:border-blue-400 bg-white rounded disabled:bg-gray-200 transition';
 
-export const Row: FC<HTMLAttributes<HTMLDivElement>> = ({ className = '', ...props }) => <div className={`mb-6 last:mb-0 ${className}`} {...props} />;
+export const Row: FC<HTMLAttributes<HTMLDivElement>> = ({ className = '', ...props }) => <div className={`mb-6 last:mb-0 relative ${className}`} {...props} />;
 
 export const Label: FC<LabelHTMLAttributes<HTMLLabelElement>> = ({ className = '', ...props }) => <label className={`${className} block font-medium text-gray-700 mb-2`} {...props} />;
 
@@ -68,20 +67,13 @@ export type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
 };
 
 const TextAreaRenderFunction: ForwardRefRenderFunction<HTMLTextAreaElement, TextAreaProps> = ({ className = '', size = Size.md, block = false, ...textAreaProps }, ref) => {
-	switch (size) {
-		case Size.md:
-			className += ' px-3 py-2 text-base';
-			break;
-		case Size.sm:
-			className += ' px-2 py-1 text-sm';
-			break;
-	}
+	const textAreaClassNames = classNames(InputClassNames, className, {
+		'px-3 py-2 text-base': size === Size.md,
+		'px-2 py-1 text-sm': size === Size.sm,
+		'w-full': block
+	});
 
-	if (block) {
-		className += ' w-full';
-	}
-
-	return <textarea ref={ref} className={`${className} ${InputClassNames}`} {...textAreaProps} />;
+	return <textarea ref={ref} className={textAreaClassNames} {...textAreaProps} />;
 };
 
 export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
@@ -103,30 +95,28 @@ export type ToggleProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & 
 	size?: Size;
 };
 
-const InputRenderFunction: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ type = 'text', size = Size.md, icon, iconColor = 'text-gray-400', block = false, ...props }, ref) => {
-	let className = '';
-
-	switch (size) {
-		case Size.md:
-			className = 'px-3 py-2 text-base';
-			break;
-		case Size.sm:
-			className = 'px-2 py-1 text-sm';
-			break;
-	}
-
-	props.className = `${block ? 'block w-full' : 'inline-flex'} ${className} ${InputClassNames} ${icon ? 'pl-10' : ''} ${props.className !== undefined ? props.className : ''}`;
+const InputRenderFunction: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
+	{ className = '', type = 'text', size = Size.md, icon, iconColor = 'text-gray-400', block = false, ...props },
+	ref
+) => {
+	const inputClassNames = classNames(InputClassNames, className, {
+		'px-3 py-2 text-base': size === Size.md,
+		'px-2 py-1 text-sm': size === Size.sm,
+		'block w-full': block,
+		'inline-flex': !block,
+		'pl-10': icon
+	});
 
 	let child = null;
 
 	if (props.mask !== undefined) {
 		child = (
 			<InputMask mask={props.mask} maskPlaceholder={props.maskChar || null} value={props.value} onChange={props.onChange}>
-				{(inputProps: Record<string, string>) => <input type={type} {...props} {...inputProps} ref={ref} />}
+				{(inputProps: Record<string, string>) => <input type={type} className={inputClassNames} {...props} {...inputProps} ref={ref} />}
 			</InputMask>
 		);
 	} else {
-		child = <input type={type} {...props} ref={ref} />;
+		child = <input type={type} className={inputClassNames} {...props} ref={ref} />;
 	}
 
 	if (icon !== null) {

@@ -2,6 +2,9 @@ import React, { FC, useEffect, useState } from 'react';
 import BaseModal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import classNames from 'classnames';
+import { Button } from 'Button';
+import { Intent, Size, Variant } from 'types';
 
 export enum ModalSize {
 	XSmall = 'max-w-md',
@@ -15,6 +18,7 @@ export type ModalProps = BaseModal.Props & {
 	size?: ModalSize;
 	className?: string;
 	onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
+	closeable?: boolean;
 };
 
 interface ModalBodyProps {
@@ -22,14 +26,49 @@ interface ModalBodyProps {
 	disabled?: boolean;
 }
 
-export const Modal: FC<ModalProps> = ({ size = ModalSize.Medium, onSubmit, className = '', isOpen = false, ...props }) => {
+export const Modal: FC<ModalProps> = ({ size = ModalSize.Medium, onSubmit, className = '', isOpen: initialIsOpen = false, closeable, ...props }) => {
 	const [doneOpening, setDoneOpening] = useState(false);
+	const [isOpen, setIsOpen] = useState(initialIsOpen);
 
 	useEffect(() => {
 		if (!isOpen) {
 			setDoneOpening(false);
 		}
 	}, [isOpen]);
+
+	useEffect(() => {
+		setIsOpen(initialIsOpen);
+	}, [initialIsOpen]);
+
+	const overlayClassNames = classNames(
+		'flex sm:items-center justify-center z-30 fixed overflow-x-hidden overflow-y-auto w-full h-full left-0 top-0 transition-colors ease-in-out duration-500 bg-black',
+		{
+			'bg-opacity-50': doneOpening,
+			'bg-opacity-0': !doneOpening
+		}
+	);
+
+	const modalClassNames = classNames(
+		'absolute bottom-0 left-0 right-0 sm:static w-full bg-white rounded-t-xl sm:rounded-b-xl sm:shadow-xl outline-none sm:h-auto transform transition-all ease-in-out duration-500',
+		size,
+		{
+			'opacity-100 translate-y-0': doneOpening,
+			'opacity-0 translate-y-8': !doneOpening
+		}
+	);
+
+	const modalBodyClassNames = classNames('transition-transform flex flex-col max-h-[90vh] sm:max-h-screen', className);
+
+	const children = (
+		<>
+			{closeable !== undefined && (
+				<div className="absolute top-4 right-4">
+					<Button disabled={!closeable} circle icon="times" type="button" variant={Variant.light} intent={Intent.secondary} onClick={() => setIsOpen(false)} size={Size.sm} />
+				</div>
+			)}
+			{props.children}
+		</>
+	);
 
 	return (
 		<BaseModal
@@ -39,18 +78,14 @@ export const Modal: FC<ModalProps> = ({ size = ModalSize.Medium, onSubmit, class
 			closeTimeoutMS={500}
 			bodyOpenClassName="overflow-hidden"
 			ariaHideApp={false}
-			overlayClassName={`z-30 fixed overflow-x-hidden overflow-y-auto w-full h-full left-0 top-0 transition-colors ease-in-out duration-500 bg-black ${
-				doneOpening ? 'bg-opacity-50' : 'bg-opacity-0'
-			} flex sm:items-center justify-center`}
-			className={`w-full bg-white sm:rounded-xl shadow-xl outline-none sm:h-auto ${size} transform transition-all ease-in-out duration-500 ${
-				doneOpening ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-			}`}>
+			overlayClassName={overlayClassNames}
+			className={modalClassNames}>
 			{onSubmit !== undefined && (
-				<form onSubmit={onSubmit} className={`transition-transform flex flex-col h-full max-h-screen ${className}`}>
-					{props.children}
+				<form onSubmit={onSubmit} className={modalBodyClassNames}>
+					{children}
 				</form>
 			)}
-			{onSubmit === undefined && <div className={`transition-transform flex flex-col h-full max-h-screen ${className}`}>{props.children}</div>}
+			{onSubmit === undefined && <div className={modalBodyClassNames}>{children}</div>}
 		</BaseModal>
 	);
 };

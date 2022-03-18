@@ -12,6 +12,7 @@ export declare type ModalProps = BaseModal.Props & {
     size?: ModalSize;
     className?: string;
     onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
+    closeable?: boolean;
 };
 interface ModalBodyProps {
     className?: string;

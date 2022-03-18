@@ -57,7 +57,8 @@ export const Alert: FC<AlertProps> = ({ className = '', size = Size.md, icon, va
 		'mr-2 text-base mt-0.5': size === Size.sm,
 		'mr-2 text-lg mt-0.5': size === Size.md,
 
-		'text-blue-400': variant === Variant.info
+		'text-blue-400': variant === Variant.info,
+		'text-yellow-400': variant === Variant.warning
 	});
 
 	return (
@@ -68,6 +69,7 @@ export const Alert: FC<AlertProps> = ({ className = '', size = Size.md, icon, va
 						<FontAwesomeIcon icon="times" fixedWidth />
 					</button>
 				)}
+
 				{icon !== undefined && <FontAwesomeIcon icon={icon} className={iconClassNames} />}
 				<div className={textClassNames}>{children}</div>
 			</div>
