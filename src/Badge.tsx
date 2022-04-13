@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { ButtonHTMLAttributes, FC } from 'react';
 import { Intent, Variant } from 'types';
 
@@ -8,51 +9,34 @@ export type BadgeProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 export const Badge: FC<BadgeProps> = ({ variant, inverse = false, className = '', ...props }) => {
-	let hover = '',
-		active = '',
-		disabled = 'disabled:bg-opacity-50';
+	const tagClassNames = classNames('whitespace-nowrap px-2 inline-flex font-semibold text-xs hover:transition-colors focus:ring ease-in-out duration-100 rounded-full', {
+		'bg-red-200 text-red-800': variant === Variant.danger && !inverse,
+		'bg-red-600 text-white': variant === Variant.danger && inverse,
+		'hover:bg-red-600 active:bg-red-800': variant === Variant.danger && !!props.onClick,
 
-	switch (variant) {
-		case Variant.danger:
-			hover += 'hover:bg-red-600';
-			className += ` ${inverse ? 'bg-red-600 text-white' : 'bg-red-200 text-red-800'}`;
-			active += 'active:bg-red-800';
-			break;
-		case Variant.warning:
-			hover += 'hover:bg-yellow-500';
-			className += ' bg-yellow-300 text-yellow-800';
-			active += 'active:bg-yellow-700';
-			break;
-		case Variant.primary:
-			hover += 'hover:bg-blue-400';
-			className += ' bg-blue-200 text-blue-800';
-			active += 'active:bg-blue-600';
-			break;
-		case Variant.success:
-			hover += 'hover:bg-green-400';
-			className += ' bg-green-200 text-green-800';
-			active += 'active:bg-green-600';
-			break;
-		case Variant.dark:
-			className += ' bg-gray-300';
-			disabled += ' disabled:text-gray-500';
-			break;
-		default:
-			disabled += ' disabled:text-gray-500';
-			// hover += 'hover:bg-blue-400';
-			className += ' text-gray-800';
-			// active += 'active:bg-blue-600';
-			break;
-	}
+		'bg-yellow-200 text-yellow-700': variant === Variant.warning && !inverse,
+		'bg-yellow-600 text-white': variant === Variant.warning && inverse,
+		'hover:bg-yellow-500 active:bg-yellow-700': variant === Variant.warning && !!props.onClick,
+
+		'bg-blue-100 text-blue-800': variant === Variant.primary && !inverse,
+		'bg-blue-800 text-white': variant === Variant.primary && inverse,
+		'hover:bg-blue-400 active:bg-blue-600': variant === Variant.primary && !!props.onClick,
+
+		'bg-green-200 text-green-800': variant === Variant.success && !inverse,
+		'bg-green-800 text-white': variant === Variant.success && inverse,
+		'hover:bg-green-400 active:bg-green-600': variant === Variant.success && !!props.onClick,
+
+		'bg-gray-300 text-white': variant === Variant.dark && !inverse,
+		'bg-white text-gray-300': variant === Variant.dark && inverse,
+		'hover:bg-green-400 active:bg-green-600 disabled:text-gray-500': variant === Variant.dark && !!props.onClick,
+
+		'bg-gray-100 text-gray-800': variant === Variant.light,
+		'hover:bg-gray-200 active:bg-gray-800 disabled:text-white': variant === Variant.light && !!props.onClick,
+
+		'disabled:bg-opacity-50': !!props.onClick
+	});
 
 	const Tag = !!props.type || props.onClick ? 'button' : 'span';
 
-	return (
-		<Tag
-			className={`whitespace-nowrap px-2 inline-flex font-semibold text-xs hover:transition-colors focus:ring ease-in-out duration-100 rounded-full ${disabled} ${props.onClick ? active : ''} ${
-				props.onClick ? hover : ''
-			} ${className}`}
-			{...props}
-		/>
-	);
+	return <Tag className={tagClassNames} {...props} />;
 };
