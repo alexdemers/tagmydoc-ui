@@ -9,7 +9,7 @@ export type BadgeProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 export const Badge: FC<BadgeProps> = ({ variant, inverse = false, className = '', ...props }) => {
-	const tagClassNames = classNames('whitespace-nowrap px-2 inline-flex font-semibold text-xs hover:transition-colors focus:ring ease-in-out duration-100 rounded-full', {
+	const tagClassNames = classNames(className, 'whitespace-nowrap px-2 inline-flex font-semibold text-xs hover:transition-colors focus:ring ease-in-out duration-100 rounded-full', {
 		'bg-red-200 text-red-800': variant === Variant.danger && !inverse,
 		'bg-red-600 text-white': variant === Variant.danger && inverse,
 		'hover:bg-red-600 active:bg-red-800': variant === Variant.danger && !!props.onClick,
