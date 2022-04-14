@@ -16,7 +16,6 @@ import {
 	useRef,
 	useState
 } from 'react';
-import InputMask from 'react-input-mask';
 import { ID } from '../StringUtils';
 import { Intent, Size } from '../types';
 
@@ -107,17 +106,7 @@ const InputRenderFunction: ForwardRefRenderFunction<HTMLInputElement, InputProps
 		'pl-10': icon
 	});
 
-	let child = null;
-
-	if (props.mask !== undefined) {
-		child = (
-			<InputMask mask={props.mask} maskPlaceholder={props.maskChar || null} value={props.value} onChange={props.onChange}>
-				{(inputProps: Record<string, string>) => <input type={type} className={inputClassNames} {...props} {...inputProps} ref={ref} />}
-			</InputMask>
-		);
-	} else {
-		child = <input type={type} className={inputClassNames} {...props} ref={ref} />;
-	}
+	let child = <input type={type} className={inputClassNames} {...props} ref={ref} />;
 
 	if (icon !== null) {
 		return (

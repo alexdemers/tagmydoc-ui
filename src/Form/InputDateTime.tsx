@@ -2,10 +2,14 @@ import { parseISO } from 'date-fns';
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Input, InputClassNames, InputProps } from '.';
 
-const _dateTimeInput = document.createElement('input');
-_dateTimeInput.setAttribute('type', 'date');
-_dateTimeInput.setAttribute('value', 'a');
-const isDateTimeLocalSupported = _dateTimeInput.value !== 'a';
+let isDateTimeLocalSupported = false;
+
+if (typeof document !== 'undefined') {
+	const _dateTimeInput = document.createElement('input');
+	_dateTimeInput.setAttribute('type', 'date');
+	_dateTimeInput.setAttribute('value', 'a');
+	isDateTimeLocalSupported = _dateTimeInput.value !== 'a';
+}
 
 export type InputDateTimeProps = Omit<InputProps, 'onChange'> & {
 	onChange?: (datetimeIso: string) => void;
