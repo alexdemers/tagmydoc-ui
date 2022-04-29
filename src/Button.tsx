@@ -17,6 +17,7 @@ type ButtonOptions = {
 	iconStart?: IconProp;
 	iconEnd?: IconProp;
 	loading?: boolean;
+	animateIcon?: boolean;
 };
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLElement> & ButtonOptions;
@@ -32,7 +33,17 @@ const ButtonRenderFunction: ForwardRefRenderFunction<HTMLButtonElement, ButtonPr
 	);
 };
 
-const resolveButtonIconClassNames = ({ iconStart, iconEnd, disabled = false, circle = false, intent = Intent.primary, variant, className = '', size = Size.md }: ButtonOptions) => {
+const resolveButtonIconClassNames = ({
+	iconStart,
+	iconEnd,
+	disabled = false,
+	circle = false,
+	intent = Intent.primary,
+	variant,
+	className = '',
+	animateIcon = false,
+	size = Size.md
+}: ButtonOptions) => {
 	return classNames(className, {
 		'text-white': intent === Intent.primary && variant !== Variant.light,
 		'text-blue-600 group-active:text-white': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.primary,
@@ -42,19 +53,26 @@ const resolveButtonIconClassNames = ({ iconStart, iconEnd, disabled = false, cir
 		'text-gray-600': variant === Variant.light,
 		// 'text-white': (intent === Intent.secondary || intent === Intent.tertiary) && variant === Variant.dark,
 
-		'ml-1.5 group-hover:translate-x-0.5': size === Size.xs && !circle && iconEnd !== undefined,
-		'ml-2 group-hover:translate-x-0.5': size === Size.sm && !circle && iconEnd !== undefined,
-		'ml-2.5 group-hover:translate-x-0.5': size === Size.md && !circle && iconEnd !== undefined,
-		'ml-3 group-hover:translate-x-1': size === Size.lg && !circle && iconEnd !== undefined,
-		'ml-3 group-hover:translate-x-1 ': size === Size.xl && !circle && iconEnd !== undefined,
-		'ml-3.5 group-hover:translate-x-1': size === Size['2xl'] && !circle && iconEnd !== undefined,
+		'ml-1.5': size === Size.xs && !circle && iconEnd !== undefined,
+		'ml-2': size === Size.sm && !circle && iconEnd !== undefined,
+		'ml-2.5': size === Size.md && !circle && iconEnd !== undefined,
+		'ml-3': size === Size.lg && !circle && iconEnd !== undefined,
+		'ml-3 ': size === Size.xl && !circle && iconEnd !== undefined,
+		'ml-3.5': size === Size['2xl'] && !circle && iconEnd !== undefined,
 
-		'mr-1.5 group-hover:translate-x-0.5': size === Size.xs && !circle && iconStart !== undefined,
-		'mr-2 group-hover:translate-x-0.5': size === Size.sm && !circle && iconStart !== undefined,
-		'mr-2.5 group-hover:translate-x-0.5': size === Size.md && !circle && iconStart !== undefined,
-		'mr-3 group-hover:translate-x-1': size === Size.lg && !circle && iconStart !== undefined,
-		'mr-3 group-hover:translate-x-1 ': size === Size.xl && !circle && iconStart !== undefined,
-		'mr-3.5 group-hover:translate-x-1': size === Size['2xl'] && !circle && iconStart !== undefined,
+		'mr-1.5': size === Size.xs && !circle && iconStart !== undefined,
+		'mr-2': size === Size.sm && !circle && iconStart !== undefined,
+		'mr-2.5': size === Size.md && !circle && iconStart !== undefined,
+		'mr-3': size === Size.lg && !circle && iconStart !== undefined,
+		'mr-3 ': size === Size.xl && !circle && iconStart !== undefined,
+		'mr-3.5': size === Size['2xl'] && !circle && iconStart !== undefined,
+
+		'group-hover:translate-x-0.5': size === Size.xs && !circle && iconEnd !== undefined && animateIcon,
+		'group-hover:translate-x-0.5 ': size === Size.sm && !circle && iconEnd !== undefined && animateIcon,
+		'group-hover:translate-x-0.5  ': size === Size.md && !circle && iconEnd !== undefined && animateIcon,
+		'group-hover:translate-x-1': size === Size.lg && !circle && iconEnd !== undefined && animateIcon,
+		'group-hover:translate-x-1 ': size === Size.xl && !circle && iconEnd !== undefined && animateIcon,
+		'group-hover:translate-x-1  ': size === Size['2xl'] && !circle && iconEnd !== undefined && animateIcon,
 
 		'transition-all transform': !disabled
 	});

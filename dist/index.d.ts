@@ -58,6 +58,7 @@ declare type ButtonOptions = {
     iconStart?: IconProp;
     iconEnd?: IconProp;
     loading?: boolean;
+    animateIcon?: boolean;
 };
 declare type ButtonProps = react__default.ButtonHTMLAttributes<HTMLElement> & ButtonOptions;
 declare const resolveButtonClassNames: ({ disabled, circle, intent, variant, className, block, size, shadow, iconStart, iconEnd }: ButtonOptions) => string;

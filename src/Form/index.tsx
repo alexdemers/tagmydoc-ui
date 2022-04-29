@@ -149,8 +149,8 @@ const InputGroupRenderFunction: ForwardRefRenderFunction<HTMLInputElement, Input
 	}, [appended, prepended]);
 
 	return (
-		<div className="relative w-full">
-			<InputBlock ref={ref} {...inputProps} />
+		<div className={`relative ${!inputProps.block ? 'inline-block' : ''}`}>
+			<Input ref={ref} {...inputProps} />
 			{prepended !== null && (
 				<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none" ref={prependDiv}>
 					{prepended}
