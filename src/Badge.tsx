@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { ButtonHTMLAttributes, FC } from 'react';
+import { ButtonHTMLAttributes, forwardRef, ForwardRefRenderFunction } from 'react';
 import { Intent, Variant } from 'types';
 
 export type BadgeProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -8,7 +8,7 @@ export type BadgeProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 	inverse?: boolean;
 };
 
-export const Badge: FC<BadgeProps> = ({ variant, inverse = false, className = '', ...props }) => {
+export const BadgeRenderFn: ForwardRefRenderFunction<HTMLButtonElement, BadgeProps> = ({ variant, inverse = false, className = '', ...props }, ref) => {
 	const tagClassNames = classNames(className, 'whitespace-nowrap px-2 inline-flex font-semibold text-xs hover:transition-colors focus:ring ease-in-out duration-100 rounded-full', {
 		'bg-red-200 text-red-600': variant === Variant.danger && !inverse,
 		'bg-red-600 text-white': variant === Variant.danger && inverse,
@@ -38,5 +38,7 @@ export const Badge: FC<BadgeProps> = ({ variant, inverse = false, className = ''
 
 	const Tag = !!props.type || props.onClick ? 'button' : 'span';
 
-	return <Tag className={tagClassNames} {...props} />;
+	return <Tag className={tagClassNames} ref={ref} {...props} />;
 };
+
+export const Badge = forwardRef(BadgeRenderFn);
