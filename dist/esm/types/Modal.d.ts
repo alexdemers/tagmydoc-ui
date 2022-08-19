@@ -1,6 +1,6 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import React, { FC } from 'react';
 import BaseModal from 'react-modal';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 export declare enum ModalSize {
     XSmall = "max-w-md",
     Small = "max-w-xl",

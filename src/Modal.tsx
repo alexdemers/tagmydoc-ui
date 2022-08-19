@@ -1,10 +1,10 @@
-import React, { FC, useEffect, useState } from 'react';
-import BaseModal from 'react-modal';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Intent, Size, Variant } from '../';
 import classNames from 'classnames';
-import { Button } from 'Button';
-import { Intent, Size, Variant } from 'types';
+import React, { FC, useEffect, useState } from 'react';
+import BaseModal, { OnAfterOpenCallbackOptions } from 'react-modal';
+import { useSwipeable } from 'react-swipeable';
 
 export enum ModalSize {
 	XSmall = 'max-w-md',
@@ -27,8 +27,9 @@ interface ModalBodyProps {
 }
 
 export const Modal: FC<ModalProps> = ({ size = ModalSize.Medium, onSubmit, className = '', isOpen: initialIsOpen = false, closeable, ...props }) => {
-	const [doneOpening, setDoneOpening] = useState(false);
 	const [isOpen, setIsOpen] = useState(initialIsOpen);
+	const [doneOpening, setDoneOpening] = useState(false);
+	const [absoluteY, setAbsoluteY] = useState<number>();
 
 	useEffect(() => {
 		if (!isOpen) {
@@ -40,24 +41,33 @@ export const Modal: FC<ModalProps> = ({ size = ModalSize.Medium, onSubmit, class
 		setIsOpen(initialIsOpen);
 	}, [initialIsOpen]);
 
+	const handleHandlers = useSwipeable({
+		trackMouse: true,
+		onSwiping: event => {
+			setAbsoluteY(Math.max(0, event.deltaY));
+		},
+		onSwiped: event => {
+			if (event.vxvy[1] > 0.75) {
+				setIsOpen(false);
+				return;
+			}
+			setAbsoluteY(undefined);
+		}
+	});
+
 	const overlayClassNames = classNames(
-		'flex sm:items-center justify-center z-30 fixed overflow-x-hidden overflow-y-auto w-full h-full left-0 top-0 transition-colors ease-in-out duration-500 bg-black',
+		'flex sm:items-center justify-center z-30 fixed overflow-x-hidden overflow-y-auto w-full h-full left-0 top-0 transition-colors ease-in-out duration-250 bg-black',
 		{
 			'bg-opacity-50': doneOpening,
 			'bg-opacity-0': !doneOpening
 		}
 	);
 
-	const modalClassNames = classNames(
-		'absolute bottom-0 left-0 right-0 sm:static w-full bg-white rounded-t-xl sm:rounded-b-xl sm:shadow-xl outline-none sm:h-auto transform transition-all ease-in-out duration-500',
-		size,
-		{
-			'opacity-100 translate-y-0': doneOpening,
-			'opacity-0 translate-y-8': !doneOpening
-		}
-	);
-
-	const modalBodyClassNames = classNames('transition-transform flex flex-col max-h-[90vh] sm:max-h-screen', className);
+	const modalClassNames = classNames('z-[11] fixed bottom-0 left-0 right-0 sm:static w-full bg-white rounded-t-xl sm:rounded-b-xl sm:shadow-xl outline-none sm:h-auto', size, {
+		'transition duration-250': !absoluteY,
+		'opacity-100 translate-y-0': doneOpening,
+		'opacity-0 translate-y-8': !doneOpening
+	});
 
 	const children = (
 		<>
@@ -66,26 +76,32 @@ export const Modal: FC<ModalProps> = ({ size = ModalSize.Medium, onSubmit, class
 					<Button disabled={!closeable} circle icon="times" type="button" variant={Variant.light} intent={Intent.secondary} onClick={() => setIsOpen(false)} size={Size.sm} />
 				</div>
 			)}
-			{props.children}
+			<div className="py-6 md:hidden" {...handleHandlers}>
+				<div className="w-32 h-1 mx-auto bg-gray-300 rounded-full active:bg-gray-500"></div>
+			</div>
+			<div className="flex flex-col max-h-[80vh] sm:max-h-screen">{props.children}</div>
 		</>
 	);
+
+	const onAfterOpen = (options?: OnAfterOpenCallbackOptions) => {
+		setDoneOpening(true);
+		if (props.onAfterOpen) {
+			props.onAfterOpen(options);
+		}
+	};
 
 	return (
 		<BaseModal
 			{...props}
 			isOpen={isOpen}
-			onAfterOpen={() => setDoneOpening(true)}
-			closeTimeoutMS={500}
+			onAfterOpen={onAfterOpen}
+			closeTimeoutMS={250}
 			bodyOpenClassName="overflow-hidden"
 			ariaHideApp={false}
-			overlayClassName={overlayClassNames}
-			className={modalClassNames}>
-			{onSubmit !== undefined && (
-				<form onSubmit={onSubmit} className={modalBodyClassNames}>
-					{children}
-				</form>
-			)}
-			{onSubmit === undefined && <div className={modalBodyClassNames}>{children}</div>}
+			className={modalClassNames}
+			style={{ content: { paddingBottom: `env(safe-area-inset-bottom)`, transform: absoluteY ? `translateY(${absoluteY}px)` : undefined } }}
+			overlayClassName={overlayClassNames}>
+			{onSubmit ? <form onSubmit={onSubmit}>{children}</form> : children}
 		</BaseModal>
 	);
 };
@@ -95,7 +111,7 @@ export type ModalHeaderProps = {
 };
 
 export const ModalHeader: FC<ModalHeaderProps> = ({ className = '', children }) => {
-	return <header className={`${className} px-6 sm:px-8 pt-6 sm:pt-8 flex items-start justify-between`}>{children}</header>;
+	return <header className={`${className} px-6 md:pt-6 sm:px-8 flex items-start justify-between`}>{children}</header>;
 };
 
 export type ModalHeaderOnlyTitleProps = {
@@ -123,10 +139,9 @@ export const ModalFooter: FC<ModalFooterProps> = ({ className = '', children }) 
 };
 
 export const ModalBody: FC<ModalBodyProps> = ({ className = '', disabled = undefined, children, ...props }) => {
-	const Tag = disabled !== undefined ? 'fieldset' : 'main';
 	return (
-		<Tag {...props} className={`${className} px-6 sm:px-8 py-6 flex-1 sm:flex-auto max-h-screen md:max-h-3/4-screen overflow-auto`}>
-			{children}
-		</Tag>
+		<main {...props} className={`${className} px-6 sm:px-8 py-6 overflow-auto flex-1`}>
+			{disabled !== undefined ? <fieldset disabled={disabled}>{children}</fieldset> : children}
+		</main>
 	);
 };
