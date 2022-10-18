@@ -1,5 +1,5 @@
 import * as react from 'react';
-import react__default, { FC, ButtonHTMLAttributes, HTMLAttributes, LabelHTMLAttributes, TextareaHTMLAttributes, InputHTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react';
+import react__default, { FC, ButtonHTMLAttributes, ForwardRefRenderFunction, HTMLAttributes, LabelHTMLAttributes, TextareaHTMLAttributes, InputHTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Variant as Variant$1, Size as Size$1, Intent as Intent$1 } from 'types';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
@@ -19,9 +19,15 @@ declare type BadgeProps = ButtonHTMLAttributes<HTMLButtonElement> & {
     intent?: Intent$1;
     inverse?: boolean;
 };
-declare const Badge: FC<BadgeProps>;
+declare const BadgeRenderFn: ForwardRefRenderFunction<HTMLButtonElement, BadgeProps>;
+declare const Badge: react.ForwardRefExoticComponent<ButtonHTMLAttributes<HTMLButtonElement> & {
+    variant?: Variant$1 | undefined;
+    intent?: Intent$1 | undefined;
+    inverse?: boolean | undefined;
+} & react.RefAttributes<HTMLButtonElement>>;
 
 declare enum Size {
+    xxs = "xxs",
     xs = "xs",
     sm = "sm",
     md = "md",
@@ -54,13 +60,16 @@ declare type ButtonOptions = {
     shadow?: boolean;
     variant?: Variant;
     icon?: IconProp;
-    iconPosition?: 'left' | 'right';
+    iconStart?: IconProp;
+    iconEnd?: IconProp;
+    loading?: boolean;
+    animateIcon?: boolean;
 };
 declare type ButtonProps = react__default.ButtonHTMLAttributes<HTMLElement> & ButtonOptions;
-declare const resolveButtonClassNames: ({ disabled, circle, intent, variant, className, block, size, shadow, icon }: ButtonOptions) => string;
+declare const resolveButtonClassNames: ({ disabled, circle, intent, variant, className, block, size, shadow, iconStart, iconEnd }: ButtonOptions) => string;
 declare const Button: react__default.ForwardRefExoticComponent<react__default.ButtonHTMLAttributes<HTMLElement> & ButtonOptions & react__default.RefAttributes<HTMLButtonElement>>;
 
-declare const InputClassNames = "border border-gray-300 focus-within:outline-none focus-within:ring-blue-200 focus-within:ring focus-within:border-blue-400 bg-white rounded disabled:bg-gray-200 transition-shadow";
+declare const InputClassNames = "border focus:outline-none border-gray-300 focus:ring-blue-200 focus:ring focus:border-blue-400 bg-white rounded disabled:bg-gray-200 transition";
 declare const Row: FC<HTMLAttributes<HTMLDivElement>>;
 declare const Label: FC<LabelHTMLAttributes<HTMLLabelElement>>;
 declare const HelperText: FC<HTMLAttributes<HTMLParagraphElement>>;
@@ -69,7 +78,7 @@ declare type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
     block?: boolean;
     size?: Size;
 };
-declare type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
+declare type InputProps$1 = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
     icon?: FontAwesomeIconProps | IconProp | null;
     iconColor?: string;
     block?: boolean;
@@ -77,7 +86,7 @@ declare type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & 
     maskChar?: string | null;
     size?: Size;
 };
-declare type InputGroupProps = InputProps & {
+declare type InputGroupProps = InputProps$1 & {
     appended?: ReactNode;
     prepended?: ReactNode;
 };
@@ -89,10 +98,6 @@ declare type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'>
     size?: Size;
     block?: boolean;
 };
-declare type InputDateTimeProps = Omit<InputProps, 'onChange'> & {
-    onChange?: (datetimeIso: string) => void;
-};
-declare const InputDateTime: FC<InputDateTimeProps>;
 declare type ValidationFieldProps = {
     validation: Record<string, string[]>;
     fieldName: string;
@@ -160,6 +165,20 @@ declare const TextArea: react.ForwardRefExoticComponent<TextareaHTMLAttributes<H
     size?: Size | undefined;
 } & react.RefAttributes<HTMLTextAreaElement>>;
 
+declare type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
+    icon?: FontAwesomeIconProps | IconProp | null;
+    iconColor?: string;
+    block?: boolean;
+    mask?: string | Array<string | RegExp>;
+    maskChar?: string | null;
+    size?: Size;
+};
+
+declare type InputDateTimeProps = Omit<InputProps, 'onChange'> & {
+    onChange?: (datetimeIso: string) => void;
+};
+declare const InputDateTime: FC<InputDateTimeProps>;
+
 declare enum ModalSize {
     XSmall = "max-w-md",
     Small = "max-w-xl",
@@ -171,6 +190,7 @@ declare type ModalProps = BaseModal.Props & {
     size?: ModalSize;
     className?: string;
     onSubmit?: (event: react__default.FormEvent<HTMLFormElement>) => void;
+    closeable?: boolean;
 };
 interface ModalBodyProps {
     className?: string;
@@ -199,4 +219,4 @@ declare const ModalBody: FC<ModalBodyProps>;
  */
 declare const ID: () => string;
 
-export { Alert, AlertProps, Badge, BadgeProps, Button, ButtonProps, Checkbox, HelperText, ID, Input, InputBlock, InputClassNames, InputDateTime, InputDateTimeProps, InputGroup, InputGroupProps, InputProps, Intent, Label, Modal, ModalBody, ModalFooter, ModalFooterProps, ModalHeader, ModalHeaderOnlyTitle, ModalHeaderOnlyTitleProps, ModalHeaderProps, ModalProps, ModalSize, PasswordInput, PasswordInputBlock, Row, Select, SelectProps, Size, TextArea, TextAreaProps, Toggle, ToggleProps, ValidationField, Variant, resolveButtonClassNames };
+export { Alert, AlertProps, Badge, BadgeProps, BadgeRenderFn, Button, ButtonProps, Checkbox, HelperText, ID, Input, InputBlock, InputClassNames, InputDateTime, InputDateTimeProps, InputGroup, InputGroupProps, InputProps$1 as InputProps, Intent, Label, Modal, ModalBody, ModalFooter, ModalFooterProps, ModalHeader, ModalHeaderOnlyTitle, ModalHeaderOnlyTitleProps, ModalHeaderProps, ModalProps, ModalSize, PasswordInput, PasswordInputBlock, Row, Select, SelectProps, Size, TextArea, TextAreaProps, Toggle, ToggleProps, ValidationField, Variant, resolveButtonClassNames };

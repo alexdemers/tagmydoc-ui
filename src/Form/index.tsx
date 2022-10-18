@@ -1,32 +1,27 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
 import {
+	cloneElement,
 	FC,
 	forwardRef,
 	ForwardRefRenderFunction,
-	ReactNode,
-	useRef,
-	SelectHTMLAttributes,
-	useState,
-	useEffect,
-	LabelHTMLAttributes,
 	HTMLAttributes,
 	InputHTMLAttributes,
-	ChangeEvent,
+	LabelHTMLAttributes,
+	ReactNode,
+	SelectHTMLAttributes,
 	TextareaHTMLAttributes,
 	useLayoutEffect,
-	cloneElement
+	useRef,
+	useState
 } from 'react';
-import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
-import InputMask from 'react-input-mask';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { ID } from './StringUtils';
-import { Intent, Size } from './types';
-import { parseISO } from 'date-fns';
-import classNames from 'classnames';
+import { ID } from '../StringUtils';
+import { Intent, Size } from '../types';
 
-export const InputClassNames =
-	'border border-gray-300 focus-within:outline-none focus-within:ring-blue-200 focus-within:ring focus-within:border-blue-400 bg-white rounded disabled:bg-gray-200 transition-shadow';
+export const InputClassNames = 'border focus:outline-none border-gray-300 focus:ring-blue-200 focus:ring focus:border-blue-400 bg-white rounded disabled:bg-gray-200 transition';
 
-export const Row: FC<HTMLAttributes<HTMLDivElement>> = ({ className = '', ...props }) => <div className={`mb-6 last:mb-0 ${className}`} {...props} />;
+export const Row: FC<HTMLAttributes<HTMLDivElement>> = ({ className = '', ...props }) => <div className={`mb-6 last:mb-0 relative ${className}`} {...props} />;
 
 export const Label: FC<LabelHTMLAttributes<HTMLLabelElement>> = ({ className = '', ...props }) => <label className={`${className} block font-medium text-gray-700 mb-2`} {...props} />;
 
@@ -71,20 +66,13 @@ export type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
 };
 
 const TextAreaRenderFunction: ForwardRefRenderFunction<HTMLTextAreaElement, TextAreaProps> = ({ className = '', size = Size.md, block = false, ...textAreaProps }, ref) => {
-	switch (size) {
-		case Size.md:
-			className += ' px-3 py-2 text-base';
-			break;
-		case Size.sm:
-			className += ' px-2 py-1 text-sm';
-			break;
-	}
+	const textAreaClassNames = classNames(InputClassNames, className, {
+		'px-3 py-2 text-base': size === Size.md,
+		'px-2 py-1 text-sm': size === Size.sm,
+		'w-full': block
+	});
 
-	if (block) {
-		className += ' w-full';
-	}
-
-	return <textarea ref={ref} className={`${className} ${InputClassNames}`} {...textAreaProps} />;
+	return <textarea ref={ref} className={textAreaClassNames} {...textAreaProps} />;
 };
 
 export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
@@ -106,31 +94,19 @@ export type ToggleProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & 
 	size?: Size;
 };
 
-const InputRenderFunction: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ type = 'text', size = Size.md, icon, iconColor = 'text-gray-400', block = false, ...props }, ref) => {
-	let className = '';
+const InputRenderFunction: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
+	{ className = '', type = 'text', size = Size.md, icon, iconColor = 'text-gray-400', block = false, ...props },
+	ref
+) => {
+	const inputClassNames = classNames(InputClassNames, className, {
+		'px-3 py-2 text-base': size === Size.md,
+		'px-2 py-1 text-sm': size === Size.sm,
+		'block w-full': block,
+		'inline-flex': !block,
+		'pl-10': icon
+	});
 
-	switch (size) {
-		case Size.md:
-			className = 'px-3 py-2 text-base';
-			break;
-		case Size.sm:
-			className = 'px-2 py-1 text-sm';
-			break;
-	}
-
-	props.className = `${block ? 'block w-full' : 'inline-flex'} ${className} ${InputClassNames} ${icon ? 'pl-10' : ''} ${props.className !== undefined ? props.className : ''}`;
-
-	let child = null;
-
-	if (props.mask !== undefined) {
-		child = (
-			<InputMask mask={props.mask} maskPlaceholder={props.maskChar || null} value={props.value} onChange={props.onChange}>
-				{(inputProps: Record<string, string>) => <input type={type} {...props} {...inputProps} ref={ref} />}
-			</InputMask>
-		);
-	} else {
-		child = <input type={type} {...props} ref={ref} />;
-	}
+	let child = <input type={type} className={inputClassNames} {...props} ref={ref} />;
 
 	if (icon !== null) {
 		return (
@@ -173,8 +149,8 @@ const InputGroupRenderFunction: ForwardRefRenderFunction<HTMLInputElement, Input
 	}, [appended, prepended]);
 
 	return (
-		<div className="relative w-full">
-			<InputBlock ref={ref} {...inputProps} />
+		<div className={`relative ${!inputProps.block ? 'inline-block' : ''}`}>
+			<Input ref={ref} {...inputProps} />
 			{prepended !== null && (
 				<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none" ref={prependDiv}>
 					{prepended}
@@ -224,54 +200,6 @@ const SelectRenderFunction: ForwardRefRenderFunction<HTMLSelectElement, SelectPr
 	}
 
 	return <select ref={ref} className={`${className} ${InputClassNames}`} {...props} />;
-};
-
-const isDateTimeLocalSupported = false;
-
-export type InputDateTimeProps = Omit<InputProps, 'onChange'> & {
-	onChange?: (datetimeIso: string) => void;
-};
-
-export const InputDateTime: FC<InputDateTimeProps> = ({ value: initialValue, onChange, ...inputProps }) => {
-	const [polyfillDateValue, setPolyfillDateValue] = useState<string | number | readonly string[] | undefined>();
-	const [polyfillTimeValue, setPolyfillTimeValue] = useState<string | number | readonly string[] | undefined>();
-
-	const nativeOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-		onChange && onChange(e.target.value);
-	};
-
-	const dateOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setPolyfillDateValue(e.target.value);
-	};
-
-	const timeOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setPolyfillTimeValue(e.target.value);
-	};
-
-	useEffect(() => {
-		if (!polyfillDateValue || !polyfillTimeValue) {
-			onChange && onChange('');
-			return;
-		}
-
-		const datetime = parseISO(`${polyfillDateValue} ${polyfillTimeValue}`);
-		// eslint-disable-next-line no-self-compare
-		if (datetime.getTime() === datetime.getTime()) {
-			onChange && onChange(`${polyfillDateValue}T${polyfillTimeValue}`);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [polyfillDateValue, polyfillTimeValue]);
-
-	if (isDateTimeLocalSupported) {
-		return <Input type="datetime-local" onChange={nativeOnChange} {...inputProps} />;
-	}
-
-	return (
-		<span className={`inline-flex ${InputClassNames}`}>
-			<input type="date" className="bg-transparent border-0 focus:ring-0" value={polyfillDateValue} onChange={dateOnChange} />
-			<input type="time" className="bg-transparent border-0 focus:ring-0" value={polyfillTimeValue} onChange={timeOnChange} />
-		</span>
-	);
 };
 
 type ValidationFieldProps = {

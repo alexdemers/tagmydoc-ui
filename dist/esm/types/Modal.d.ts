@@ -1,6 +1,6 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import React, { FC } from 'react';
 import BaseModal from 'react-modal';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 export declare enum ModalSize {
     XSmall = "max-w-md",
     Small = "max-w-xl",
@@ -12,6 +12,7 @@ export declare type ModalProps = BaseModal.Props & {
     size?: ModalSize;
     className?: string;
     onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
+    closeable?: boolean;
 };
 interface ModalBodyProps {
     className?: string;

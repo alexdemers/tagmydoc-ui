@@ -180,7 +180,7 @@ export type ModalHeaderProps = {
 };
 
 export const ModalHeader: FC<ModalHeaderProps> = ({ className = '', children }) => {
-	return <header className={`${className} px-8 pt-8 flex items-start justify-between`}>{children}</header>;
+	return <header className={`${className} px-6 md:pt-6 sm:px-8 flex items-start justify-between`}>{children}</header>;
 };
 
 export type ModalHeaderOnlyTitleProps = {
@@ -204,14 +204,13 @@ export type ModalFooterProps = {
 };
 
 export const ModalFooter: FC<ModalFooterProps> = ({ className = '', children }) => {
-	return <footer className={`${className} sm:rounded-b-xl px-8 py-4 bg-gray-100 items-center space-x-4 flex`}>{children}</footer>;
+	return <footer className={`${className} sm:rounded-b-xl px-6 sm:px-8 py-4 bg-gray-100 items-center space-x-4 flex`}>{children}</footer>;
 };
 
 export const ModalBody: FC<ModalBodyProps> = ({ className = '', disabled = undefined, children, ...props }) => {
-	const Tag = disabled !== undefined ? 'fieldset' : 'main';
 	return (
-		<Tag {...props} className={`${className} px-8 py-6 flex-1 sm:flex-auto max-h-screen md:max-h-3/4-screen overflow-auto`}>
-			{children}
-		</Tag>
+		<main {...props} className={`${className} px-6 sm:px-8 py-6 overflow-auto flex-1`}>
+			{disabled !== undefined ? <fieldset disabled={disabled}>{children}</fieldset> : children}
+		</main>
 	);
 };
