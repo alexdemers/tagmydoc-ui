@@ -1,5 +1,5 @@
 import * as react from 'react';
-import react__default, { FC, ButtonHTMLAttributes, ForwardRefRenderFunction, HTMLAttributes, LabelHTMLAttributes, TextareaHTMLAttributes, InputHTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react';
+import react__default, { FC, ButtonHTMLAttributes, ForwardRefRenderFunction, HTMLAttributes, LabelHTMLAttributes, TextareaHTMLAttributes, InputHTMLAttributes, ReactNode, SelectHTMLAttributes, Dispatch, SetStateAction } from 'react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Variant as Variant$1, Size as Size$1, Intent as Intent$1 } from 'types';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
@@ -186,11 +186,14 @@ declare enum ModalSize {
     Large = "max-w-3xl",
     XLarge = "max-w-4xl"
 }
+declare const ModalContext: react__default.Context<{
+    setSize: Dispatch<SetStateAction<ModalSize>>;
+}>;
 declare type ModalProps = BaseModal.Props & {
     size?: ModalSize;
-    className?: string;
     onSubmit?: (event: react__default.FormEvent<HTMLFormElement>) => void;
     closeable?: boolean;
+    url?: string;
 };
 interface ModalBodyProps {
     className?: string;
@@ -219,4 +222,4 @@ declare const ModalBody: FC<ModalBodyProps>;
  */
 declare const ID: () => string;
 
-export { Alert, AlertProps, Badge, BadgeProps, BadgeRenderFn, Button, ButtonProps, Checkbox, HelperText, ID, Input, InputBlock, InputClassNames, InputDateTime, InputDateTimeProps, InputGroup, InputGroupProps, InputProps$1 as InputProps, Intent, Label, Modal, ModalBody, ModalFooter, ModalFooterProps, ModalHeader, ModalHeaderOnlyTitle, ModalHeaderOnlyTitleProps, ModalHeaderProps, ModalProps, ModalSize, PasswordInput, PasswordInputBlock, Row, Select, SelectProps, Size, TextArea, TextAreaProps, Toggle, ToggleProps, ValidationField, Variant, resolveButtonClassNames };
+export { Alert, AlertProps, Badge, BadgeProps, BadgeRenderFn, Button, ButtonProps, Checkbox, HelperText, ID, Input, InputBlock, InputClassNames, InputDateTime, InputDateTimeProps, InputGroup, InputGroupProps, InputProps$1 as InputProps, Intent, Label, Modal, ModalBody, ModalContext, ModalFooter, ModalFooterProps, ModalHeader, ModalHeaderOnlyTitle, ModalHeaderOnlyTitleProps, ModalHeaderProps, ModalProps, ModalSize, PasswordInput, PasswordInputBlock, Row, Select, SelectProps, Size, TextArea, TextAreaProps, Toggle, ToggleProps, ValidationField, Variant, resolveButtonClassNames };
