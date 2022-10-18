@@ -165,10 +165,10 @@ const InputGroupRenderFunction: ForwardRefRenderFunction<HTMLInputElement, Input
 
 	useLayoutEffect(() => {
 		if (prependDiv.current) {
-			setPaddingLeft(prependDiv.current.offsetWidth);
+			setPaddingRight(prependDiv.current.offsetWidth);
 		}
 		if (appendDiv.current) {
-			setPaddingRight(appendDiv.current.offsetWidth);
+			setPaddingLeft(appendDiv.current.offsetWidth);
 		}
 	}, [appended, prepended]);
 
@@ -181,7 +181,7 @@ const InputGroupRenderFunction: ForwardRefRenderFunction<HTMLInputElement, Input
 				</div>
 			)}
 			{appended !== null && (
-				<div className={`absolute inset-y-0 right-0 flex items-center ${inputProps.type === 'number' ? 'pr-10' : 'pr-3'} pointer-events-none`} ref={appendDiv}>
+				<div className={`absolute inset-y-0 right-0 flex items-center ${inputProps.type === 'number' ? 'pl-10' : 'pr-3'} pointer-events-none`} ref={appendDiv}>
 					{appended}
 				</div>
 			)}
