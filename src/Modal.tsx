@@ -55,32 +55,18 @@ export const Modal: FC<ModalProps> = ({ size: initialSize = ModalSize.Medium, on
 		}
 	}, [isOpen]);
 
+	// When opens
 	// useLayoutEffect(() => {
-	// 	if (!isOpen) {
-	// 		window.history.back();
-	// 		window.history.replaceState(oldState.current, '', url);
-	// 	} else {
+	// 	if (isOpen) {
 	// 		window.history.pushState(null, '', url);
 	// 		window.addEventListener('popstate', popStateListener);
 	// 	}
-	// 	console.log(`useLayoutEffect for ${url}: ${JSON.stringify({ url, isOpen })}`);
 	// 	return () => {
-	// 		window.removeEventListener('popstate', popStateListener);
+	// 		if (isOpen) {
+	// 			window.removeEventListener('popstate', popStateListener);
+	// 		}
 	// 	};
 	// }, [isOpen]);
-
-	// When opens
-	useLayoutEffect(() => {
-		if (isOpen) {
-			window.history.pushState(null, '', url);
-			window.addEventListener('popstate', popStateListener);
-		}
-		return () => {
-			if (isOpen) {
-				window.removeEventListener('popstate', popStateListener);
-			}
-		};
-	}, [isOpen]);
 
 	useEffect(() => {
 		setSize(initialSize);
@@ -145,16 +131,16 @@ export const Modal: FC<ModalProps> = ({ size: initialSize = ModalSize.Medium, on
 	};
 
 	// When closed
-	const onAfterClose = () => {
-		if (backOnClose) {
-			window.history.back();
-		}
-		setBackOnClose(true);
-		window.history.replaceState(oldState.current, '', '');
-		if (props.onAfterClose) {
-			props.onAfterClose();
-		}
-	};
+	// const onAfterClose = () => {
+	// 	if (backOnClose) {
+	// 		window.history.back();
+	// 	}
+	// 	setBackOnClose(true);
+	// 	window.history.replaceState(oldState.current, '', '');
+	// 	if (props.onAfterClose) {
+	// 		props.onAfterClose();
+	// 	}
+	// };
 
 	return (
 		<ModalContext.Provider value={{ setSize }}>
@@ -162,7 +148,7 @@ export const Modal: FC<ModalProps> = ({ size: initialSize = ModalSize.Medium, on
 				{...props}
 				isOpen={isOpen}
 				onAfterOpen={onAfterOpen}
-				onAfterClose={onAfterClose}
+				// onAfterClose={onAfterClose}
 				closeTimeoutMS={250}
 				bodyOpenClassName="overflow-hidden"
 				ariaHideApp={false}
