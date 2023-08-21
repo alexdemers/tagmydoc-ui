@@ -19,7 +19,8 @@ import {
 import { ID } from '../StringUtils';
 import { Intent, Size } from '../types';
 
-export const InputClassNames = 'border focus:outline-none border-gray-300 focus:ring-theme-primary-lightest focus:ring focus:border-theme-lighter bg-white rounded disabled:bg-gray-200 transition';
+export const InputClassNames =
+	'border focus:outline-none border-gray-300 focus:ring-theme-primary-lightest focus:ring focus:border-theme-primary-lighter bg-white rounded disabled:bg-gray-200 transition';
 
 export const Row: FC<HTMLAttributes<HTMLDivElement>> = ({ className = '', ...props }) => <div className={`mb-6 last:mb-0 relative ${className}`} {...props} />;
 

@@ -70,7 +70,7 @@ declare type ButtonProps = react__default.ButtonHTMLAttributes<HTMLElement> & Bu
 declare const resolveButtonClassNames: ({ disabled, circle, intent, variant, className, block, size, shadow, iconStart, iconEnd }: ButtonOptions) => string;
 declare const Button: react__default.ForwardRefExoticComponent<react__default.ButtonHTMLAttributes<HTMLElement> & ButtonOptions & react__default.RefAttributes<HTMLButtonElement>>;
 
-declare const InputClassNames = "border focus:outline-none border-gray-300 focus:ring-theme-primary-lightest focus:ring focus:border-theme-lighter bg-white rounded disabled:bg-gray-200 transition";
+declare const InputClassNames = "border focus:outline-none border-gray-300 focus:ring-theme-primary-lightest focus:ring focus:border-theme-primary-lighter bg-white rounded disabled:bg-gray-200 transition";
 declare const Row: FC<HTMLAttributes<HTMLDivElement>>;
 declare const Label: FC<LabelHTMLAttributes<HTMLLabelElement>>;
 declare const HelperText: FC<HTMLAttributes<HTMLParagraphElement>>;
