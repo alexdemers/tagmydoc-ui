@@ -2,7 +2,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Intent, Size, Variant } from '../';
 import classNames from 'classnames';
-import React, { createContext, Dispatch, FC, SetStateAction, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { createContext, Dispatch, FC, HTMLAttributes, SetStateAction, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import BaseModal, { OnAfterOpenCallbackOptions } from 'react-modal';
 import { useSwipeable } from 'react-swipeable';
 
@@ -27,10 +27,9 @@ export type ModalProps = BaseModal.Props & {
 	url?: string;
 };
 
-interface ModalBodyProps {
-	className?: string;
+type ModalBodyProps = HTMLAttributes<HTMLElement> & {
 	disabled?: boolean;
-}
+};
 
 export const Modal: FC<ModalProps> = ({ size: initialSize = ModalSize.Medium, onSubmit, className, isOpen: initialIsOpen = false, closeable, url, ...props }) => {
 	const [isOpen, setIsOpen] = useState(initialIsOpen);

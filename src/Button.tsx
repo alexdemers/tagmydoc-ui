@@ -95,13 +95,13 @@ export const resolveButtonClassNames = ({
 		'focus:ring focus:ring-opacity-30 disabled:opacity-50 select-none disabled:cursor-default transition-all focus:outline-none ease-in-out duration-200 whitespace-nowrap items-center justify-center',
 		{
 			// Variant.primary (blue)
-			'bg-blue-500 active:bg-blue-600 text-white': variant === Variant.primary && intent === Intent.primary,
-			'hover:bg-blue-400': variant === Variant.primary && intent === Intent.primary && !disabled,
-			'text-blue-600 border-blue-200 active:border-blue-600 active:bg-blue-600 active:text-white bg-white': variant === Variant.primary && intent === Intent.secondary,
-			'hover:border-blue-300 hover:text-blue-600': variant === Variant.primary && intent === Intent.secondary && !disabled,
+			'bg-theme-primary active:bg-theme-primary text-white': variant === Variant.primary && intent === Intent.primary,
+			'hover:bg-theme-primary-lighter': variant === Variant.primary && intent === Intent.primary && !disabled,
+			'text-theme-primary border-theme-lightest active:border-theme-primary active:bg-theme-primary active:text-white bg-white': variant === Variant.primary && intent === Intent.secondary,
+			'hover:border-blue-300 hover:text-theme-primary': variant === Variant.primary && intent === Intent.secondary && !disabled,
 			'text-blue-600 active:text-blue-700': variant === Variant.primary && intent === Intent.tertiary,
-			'hover:text-blue-500': variant === Variant.primary && intent === Intent.tertiary && !disabled,
-			'focus:ring-blue-500': variant === Variant.primary, // focus
+			'hover:text-theme-primary': variant === Variant.primary && intent === Intent.tertiary && !disabled,
+			'focus:ring-theme-primary': variant === Variant.primary, // focus
 
 			// Variant.success (green)
 			'bg-green-600 active:bg-green-700 text-white': variant === Variant.success && intent === Intent.primary,

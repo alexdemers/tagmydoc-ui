@@ -195,10 +195,9 @@ declare type ModalProps = BaseModal.Props & {
     closeable?: boolean;
     url?: string;
 };
-interface ModalBodyProps {
-    className?: string;
+declare type ModalBodyProps = HTMLAttributes<HTMLElement> & {
     disabled?: boolean;
-}
+};
 declare const Modal: FC<ModalProps>;
 declare type ModalHeaderProps = {
     className?: string;

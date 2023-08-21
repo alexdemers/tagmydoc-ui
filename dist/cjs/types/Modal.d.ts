@@ -1,5 +1,5 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import React, { Dispatch, FC, SetStateAction } from 'react';
+import React, { Dispatch, FC, HTMLAttributes, SetStateAction } from 'react';
 import BaseModal from 'react-modal';
 export declare enum ModalSize {
     XSmall = "max-w-md",
@@ -17,10 +17,9 @@ export declare type ModalProps = BaseModal.Props & {
     closeable?: boolean;
     url?: string;
 };
-interface ModalBodyProps {
-    className?: string;
+declare type ModalBodyProps = HTMLAttributes<HTMLElement> & {
     disabled?: boolean;
-}
+};
 export declare const Modal: FC<ModalProps>;
 export declare type ModalHeaderProps = {
     className?: string;
