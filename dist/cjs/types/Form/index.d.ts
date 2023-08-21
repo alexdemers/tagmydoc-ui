@@ -2,7 +2,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import { FC, HTMLAttributes, InputHTMLAttributes, LabelHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react';
 import { Intent, Size } from '../types';
-export declare const InputClassNames = "border focus:outline-none border-gray-300 focus:ring-blue-200 focus:ring focus:border-blue-400 bg-white rounded disabled:bg-gray-200 transition";
+export declare const InputClassNames = "border focus:outline-none border-gray-300 focus:ring-theme-primary-lightest focus:ring focus:border-theme-lighter bg-white rounded disabled:bg-gray-200 transition";
 export declare const Row: FC<HTMLAttributes<HTMLDivElement>>;
 export declare const Label: FC<LabelHTMLAttributes<HTMLLabelElement>>;
 export declare const HelperText: FC<HTMLAttributes<HTMLParagraphElement>>;

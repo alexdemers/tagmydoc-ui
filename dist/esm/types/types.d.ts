@@ -9,6 +9,7 @@ export declare enum Size {
 }
 export declare enum Variant {
     primary = "primary",
+    secondary = "secondary",
     danger = "danger",
     info = "info",
     warning = "warning",

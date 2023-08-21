@@ -94,16 +94,19 @@ export const resolveButtonClassNames = ({
 		className,
 		'focus:ring focus:ring-opacity-30 disabled:opacity-50 select-none disabled:cursor-default transition-all focus:outline-none ease-in-out duration-200 whitespace-nowrap items-center justify-center',
 		{
-			// Variant.primary (blue)
-			'bg-theme-primary active:bg-theme-primary text-white': variant === Variant.primary && intent === Intent.primary,
-			'hover:bg-theme-primary-lighter': variant === Variant.primary && intent === Intent.primary && !disabled,
-			'text-theme-primary border-theme-lightest active:border-theme-primary active:bg-theme-primary active:text-white bg-white': variant === Variant.primary && intent === Intent.secondary,
-			'hover:border-blue-300 hover:text-theme-primary': variant === Variant.primary && intent === Intent.secondary && !disabled,
-			'text-blue-600 active:text-blue-700': variant === Variant.primary && intent === Intent.tertiary,
-			'hover:text-theme-primary': variant === Variant.primary && intent === Intent.tertiary && !disabled,
+			// Variant.primary
+			'bg-theme-primary active:bg-theme-primary text-white active:border-theme-primary': variant === Variant.primary && intent === Intent.primary,
+			'text-theme-primary border-theme-primary-lightest active:border-theme-primary bg-white': variant === Variant.primary && intent === Intent.secondary,
+			'text-theme-primary active:border-theme-primary': variant === Variant.primary && intent === Intent.tertiary,
 			'focus:ring-theme-primary': variant === Variant.primary, // focus
 
-			// Variant.success (green)
+			// Variant.secondary
+			'bg-theme-secondary active:bg-theme-secondary text-white active:border-theme-secondary': variant === Variant.secondary && intent === Intent.primary,
+			'text-theme-secondary border-theme-secondary-lightest active:border-theme-secondary bg-white': variant === Variant.secondary && intent === Intent.secondary,
+			'text-theme-secondary active:border-theme-secondary': variant === Variant.secondary && intent === Intent.tertiary,
+			'focus:ring-theme-secondary': variant === Variant.secondary, // focus
+
+			// Variant.success
 			'bg-green-600 active:bg-green-700 text-white': variant === Variant.success && intent === Intent.primary,
 			'hover:bg-green-500': variant === Variant.success && intent === Intent.primary && !disabled,
 			'text-green-600 border-green-600 active:border-green-700 active:bg-green-700 active:text-white bg-white': variant === Variant.success && intent === Intent.secondary,
@@ -148,11 +151,8 @@ export const resolveButtonClassNames = ({
 			'hover:text-gray-500 ': variant === Variant.light && intent === Intent.tertiary && !disabled,
 			'focus:ring-gray-600 ': variant === Variant.light, // focus
 
-			// Intent.primary
-			'border border-transparent': intent === Intent.primary && variant !== undefined,
-
 			// Intent.secondary
-			border: intent === Intent.secondary && variant !== undefined,
+			'border border-transparent': variant !== undefined,
 
 			// Size.xs
 			'text-[10px] ': size === Size.xxs,

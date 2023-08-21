@@ -19,7 +19,7 @@ import {
 import { ID } from '../StringUtils';
 import { Intent, Size } from '../types';
 
-export const InputClassNames = 'border focus:outline-none border-gray-300 focus:ring-blue-200 focus:ring focus:border-blue-400 bg-white rounded disabled:bg-gray-200 transition';
+export const InputClassNames = 'border focus:outline-none border-gray-300 focus:ring-theme-primary-lightest focus:ring focus:border-theme-lighter bg-white rounded disabled:bg-gray-200 transition';
 
 export const Row: FC<HTMLAttributes<HTMLDivElement>> = ({ className = '', ...props }) => <div className={`mb-6 last:mb-0 relative ${className}`} {...props} />;
 
@@ -33,7 +33,7 @@ export const Toggle: FC<ToggleProps> = ({ intent = Intent.primary, size = Size.m
 	const containerClassName = classNames('relative rounded-full transition', {
 		'w-10 h-5': size === Size.sm,
 		'w-12 h-6': size === Size.md,
-		'bg-blue-500': checked,
+		'bg-theme-primary': checked,
 		'bg-gray-400': !checked,
 		'opacity-50': disabled
 	});
@@ -41,7 +41,7 @@ export const Toggle: FC<ToggleProps> = ({ intent = Intent.primary, size = Size.m
 	const labelClassName = classNames('absolute left-0 bg-white border-2 rounded-full transition transform duration-100 ease-linear cursor-pointer', {
 		'mb-1 w-5 h-5': size === Size.sm,
 		'mb-2 w-6 h-6': size === Size.md,
-		'translate-x-full border-blue-500': checked,
+		'translate-x-full border-theme-primary': checked,
 		'translate-x-0 border-gray-400': !checked
 	});
 
@@ -174,7 +174,7 @@ const CheckboxRenderFunction: ForwardRefRenderFunction<HTMLInputElement, InputPr
 
 	return (
 		<label className={`flex items-center ${className}`} htmlFor={id}>
-			<input ref={ref} type="checkbox" id={id} className={`${InputClassNames} ${children !== undefined ? 'mr-2' : ''}`} {...props} />
+			<input ref={ref} type="checkbox" id={id} className={`text-theme-primary ${InputClassNames} ${children !== undefined ? 'mr-2' : ''}`} {...props} />
 			{children}
 		</label>
 	);
