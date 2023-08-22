@@ -145,14 +145,15 @@ export const resolveButtonClassNames = ({
 			// Variant.light (white)
 			'bg-white active:bg-gray-200 text-gray-600': variant === Variant.light && intent === Intent.primary,
 			'hover:bg-gray-100': variant === Variant.light && intent === Intent.primary && !disabled,
-			'text-gray-600 border-gray-200 active:border-gray-400 active:bg-gray-200 bg-white': variant === Variant.light && intent === Intent.secondary,
+			'text-gray-600 !border-gray-200 active:border-gray-400 active:bg-gray-200 bg-white': variant === Variant.light && intent === Intent.secondary,
 			'hover:border-gray-300 hover:text-gray-800 ': variant === Variant.light && intent === Intent.secondary && !disabled,
 			'text-gray-600 active:text-gray-700 ': variant === Variant.light && intent === Intent.tertiary,
 			'hover:text-gray-500 ': variant === Variant.light && intent === Intent.tertiary && !disabled,
 			'focus:ring-gray-600 ': variant === Variant.light, // focus
 
 			// Intent.secondary
-			'border border-transparent': variant !== undefined,
+			border: variant !== undefined,
+			'border-transparent': [Intent.primary, Intent.tertiary].includes(intent) && variant !== undefined,
 
 			// Size.xs
 			'text-[10px] ': size === Size.xxs,
