@@ -36,36 +36,12 @@ export const Modal: FC<ModalProps> = ({ size: initialSize = ModalSize.Medium, on
 	const [size, setSize] = useState<ModalSize>(initialSize);
 	const [doneOpening, setDoneOpening] = useState(false);
 	const [absoluteY, setAbsoluteY] = useState<number>();
-	const [backOnClose, setBackOnClose] = useState(true);
-
-	const oldState = useRef(window.history.state);
-
-	const popStateListener = useMemo(
-		() => () => {
-			setBackOnClose(false);
-			setIsOpen(false);
-		},
-		[]
-	);
 
 	useEffect(() => {
 		if (!isOpen) {
 			setDoneOpening(false);
 		}
 	}, [isOpen]);
-
-	// When opens
-	// useLayoutEffect(() => {
-	// 	if (isOpen) {
-	// 		window.history.pushState(null, '', url);
-	// 		window.addEventListener('popstate', popStateListener);
-	// 	}
-	// 	return () => {
-	// 		if (isOpen) {
-	// 			window.removeEventListener('popstate', popStateListener);
-	// 		}
-	// 	};
-	// }, [isOpen]);
 
 	useEffect(() => {
 		setSize(initialSize);
@@ -128,18 +104,6 @@ export const Modal: FC<ModalProps> = ({ size: initialSize = ModalSize.Medium, on
 			props.onAfterOpen(options);
 		}
 	};
-
-	// When closed
-	// const onAfterClose = () => {
-	// 	if (backOnClose) {
-	// 		window.history.back();
-	// 	}
-	// 	setBackOnClose(true);
-	// 	window.history.replaceState(oldState.current, '', '');
-	// 	if (props.onAfterClose) {
-	// 		props.onAfterClose();
-	// 	}
-	// };
 
 	return (
 		<ModalContext.Provider value={{ setSize }}>
